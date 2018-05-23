@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
-                headers.put("X-Mashape-Key", "");
+                headers.put("X-Mashape-Key", getString(R.string.APIKey));
                 headers.put("Accept", "application/json");
                 return headers;
             }
