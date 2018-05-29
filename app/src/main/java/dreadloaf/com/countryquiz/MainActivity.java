@@ -1,5 +1,7 @@
 package dreadloaf.com.countryquiz;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,16 +26,19 @@ public class MainActivity extends AppCompatActivity {
 
     //Temp here
     private Country[] countries;
-
+    private static String mResponse;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         getRequest("europe");
+
+
     }
 
-    private void getRequest(String region){
+    private void getRequest(final String region){
+        Log.d("REQUEST", "Request called");
         String URL = "https://restcountries-v1.p.mashape.com/region/" + region;
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
@@ -42,15 +47,13 @@ public class MainActivity extends AppCompatActivity {
                 null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                countries = new Country[response.length()];
-                try {
-                    for(int i = 0; i < response.length(); i++){
-                        JSONObject obj= response.getJSONObject(i);
-                        Country country = new Country(obj.getString("name"), obj.getString("capital"), obj.getString("region"));
-                        countries[i] = country;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                String fileName = "countries_" + region;
+                SharedPreferences sharedPref = getSharedPreferences("appData", Context.MODE_PRIVATE);
+                if(!sharedPref.contains(fileName)){
+                    saveJson(response.toString(), fileName);
+                    Log.d("JSON", "Saved Json");
+                }else{
+                    Log.d("JSON", "Json already saved");
                 }
             }
 
@@ -73,6 +76,30 @@ public class MainActivity extends AppCompatActivity {
         };
 
         requestQueue.add(arrayRequest);
+    }
+
+    private void saveJson(String jsonString, String fileName){
+        SharedPreferences.Editor prefEditor = getSharedPreferences( "appData", Context.MODE_PRIVATE ).edit();
+        prefEditor.putString(fileName, jsonString);
+        prefEditor.apply();
+    }
+
+    private JSONArray getSavedJson(String name){
+        SharedPreferences sharedPref = getSharedPreferences("appData", Context.MODE_PRIVATE);
+
+        if(!sharedPref.contains(name)){
+            Log.d("JSON", name + " is not in sharedPrefs");
+        }
+
+        String strJson = sharedPref.getString(name,"0");//second parameter is necessary ie.,Value to return if this preference does not exist.
+        JSONArray response = null;
+        try {
+            response = new JSONArray(strJson);
+
+        } catch (JSONException e) {
+            Log.e("JSON", e.toString());
+        }
+        return response;
     }
 
     
