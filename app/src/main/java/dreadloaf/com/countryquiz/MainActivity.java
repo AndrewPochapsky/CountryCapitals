@@ -1,6 +1,7 @@
 package dreadloaf.com.countryquiz;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,19 +23,20 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import dreadloaf.com.countryquiz.util.JsonUtil;
+
 public class MainActivity extends AppCompatActivity {
 
-    //Temp here
-    private Country[] countries;
-    private static String mResponse;
+    /*
+    * User will press button specifying the region
+    * getRequest will be called to get the data
+    * Next activity will be loaded once this is done
+    * */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        getRequest("europe");
-
-
     }
 
     private void getRequest(final String region){
@@ -50,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                 String fileName = "countries_" + region;
                 SharedPreferences sharedPref = getSharedPreferences("appData", Context.MODE_PRIVATE);
                 if(!sharedPref.contains(fileName)){
-                    saveJson(response.toString(), fileName);
+                    JsonUtil.saveJson(response.toString(), fileName, MainActivity.this);
                     Log.d("JSON", "Saved Json");
                 }else{
                     Log.d("JSON", "Json already saved");
@@ -78,28 +80,17 @@ public class MainActivity extends AppCompatActivity {
         requestQueue.add(arrayRequest);
     }
 
-    private void saveJson(String jsonString, String fileName){
-        SharedPreferences.Editor prefEditor = getSharedPreferences( "appData", Context.MODE_PRIVATE ).edit();
-        prefEditor.putString(fileName, jsonString);
-        prefEditor.apply();
-    }
-
-    private JSONArray getSavedJson(String name){
+    private void onRegionSelection(String region, Class destination){
+        String fileName = "countries_" + region;
         SharedPreferences sharedPref = getSharedPreferences("appData", Context.MODE_PRIVATE);
-
-        if(!sharedPref.contains(name)){
-            Log.d("JSON", name + " is not in sharedPrefs");
+        if(sharedPref.contains(fileName)){
+            Intent startQuizIntent = new Intent(MainActivity.this, destination);
+            startActivity(startQuizIntent);
+        }else{
+            //Get the requested info from api
+            getRequest(region);
+            //Once response is acquired and saved to sharedPref, then continue
         }
-
-        String strJson = sharedPref.getString(name,"0");//second parameter is necessary ie.,Value to return if this preference does not exist.
-        JSONArray response = null;
-        try {
-            response = new JSONArray(strJson);
-
-        } catch (JSONException e) {
-            Log.e("JSON", e.toString());
-        }
-        return response;
     }
 
     
