@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     * Next activity will be loaded once this is done
     * */
 
-    Button europeButton;
+    Button mEuropeButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,31 +46,28 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences pref = getSharedPreferences("appData", Context.MODE_PRIVATE);
         pref.edit().clear().apply();
 
-        europeButton = findViewById(R.id.region_europe);
+        mEuropeButton = findViewById(R.id.region_europe);
 
-        europeButton.setOnClickListener(new View.OnClickListener() {
+        mEuropeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onRegionSelected(europeButton.getText().toString().toLowerCase(), QuizActivity.class);
+                onRegionSelected(mEuropeButton.getText().toString().toLowerCase());
             }
         });
     }
 
-    private void onRegionSelected(String region, Class destination){
+    private void onRegionSelected(String region){
         String fileName = "countries_" + region;
         SharedPreferences sharedPref = getSharedPreferences("appData", Context.MODE_PRIVATE);
 
-        //
         if(!sharedPref.contains(fileName)){
             Log.d("JSON", "JSON not saved yest");
             getRequestForRegion(region);
         }
         else{
             Log.d("JSON", "JSON already saved");
+            loadQuizActivity(region);
         }
-
-        Intent startQuizIntent = new Intent(MainActivity.this, destination);
-        startActivity(startQuizIntent);
     }
 
     private void getRequestForRegion(final String region) {
@@ -85,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 String fileName = "countries_" + region;
                 JsonUtil.saveJson(response.toString(), fileName, MainActivity.this);
                 Log.d("JSON", "Saved Json");
+                loadQuizActivity(region);
             }
 
         }, new Response.ErrorListener() {
@@ -105,6 +103,12 @@ public class MainActivity extends AppCompatActivity {
         requestQueue.add(arrayRequest);
     }
 
+
+    private void loadQuizActivity(String region){
+        Intent startQuizIntent = new Intent(MainActivity.this, QuizActivity.class);
+        startQuizIntent.putExtra("region", region);
+        startActivity(startQuizIntent);
+    }
 
     
 }

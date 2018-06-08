@@ -12,6 +12,7 @@ public class JsonUtil {
     public static void saveJson(String jsonString, String fileName, Context context){
         SharedPreferences.Editor prefEditor = context.getSharedPreferences( "appData", Context.MODE_PRIVATE ).edit();
         prefEditor.putString(fileName, jsonString);
+        Log.d("JSON", "file name is " + fileName);
         prefEditor.apply();
     }
 
