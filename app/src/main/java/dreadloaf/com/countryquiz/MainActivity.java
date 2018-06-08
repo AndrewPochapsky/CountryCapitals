@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -33,30 +35,56 @@ public class MainActivity extends AppCompatActivity {
     * Next activity will be loaded once this is done
     * */
 
+    Button europeButton;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //TODO: Remove this when done testing(next two lines)
+        SharedPreferences pref = getSharedPreferences("appData", Context.MODE_PRIVATE);
+        pref.edit().clear().apply();
+
+        europeButton = findViewById(R.id.region_europe);
+
+        europeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onRegionSelected(europeButton.getText().toString().toLowerCase(), QuizActivity.class);
+            }
+        });
     }
 
-    private void getRequest(final String region){
-        Log.d("REQUEST", "Request called");
-        String URL = "https://restcountries-v1.p.mashape.com/region/" + region;
+    private void onRegionSelected(String region, Class destination){
+        String fileName = "countries_" + region;
+        SharedPreferences sharedPref = getSharedPreferences("appData", Context.MODE_PRIVATE);
 
+        //
+        if(!sharedPref.contains(fileName)){
+            Log.d("JSON", "JSON not saved yest");
+            getRequestForRegion(region);
+        }
+        else{
+            Log.d("JSON", "JSON already saved");
+        }
+
+        Intent startQuizIntent = new Intent(MainActivity.this, destination);
+        startActivity(startQuizIntent);
+    }
+
+    private void getRequestForRegion(final String region) {
+        String URL = "https://restcountries-v1.p.mashape.com/region/" + region;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         JsonArrayRequest arrayRequest = new JsonArrayRequest(Request.Method.GET, URL,
                 null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+
                 String fileName = "countries_" + region;
-                SharedPreferences sharedPref = getSharedPreferences("appData", Context.MODE_PRIVATE);
-                if(!sharedPref.contains(fileName)){
-                    JsonUtil.saveJson(response.toString(), fileName, MainActivity.this);
-                    Log.d("JSON", "Saved Json");
-                }else{
-                    Log.d("JSON", "Json already saved");
-                }
+                JsonUtil.saveJson(response.toString(), fileName, MainActivity.this);
+                Log.d("JSON", "Saved Json");
             }
 
         }, new Response.ErrorListener() {
@@ -65,9 +93,6 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("Rest Response", error.toString());
             }
         }) {
-            /**
-             * Passing some request headers
-             */
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 HashMap<String, String> headers = new HashMap<String, String>();
@@ -80,18 +105,6 @@ public class MainActivity extends AppCompatActivity {
         requestQueue.add(arrayRequest);
     }
 
-    private void onRegionSelection(String region, Class destination){
-        String fileName = "countries_" + region;
-        SharedPreferences sharedPref = getSharedPreferences("appData", Context.MODE_PRIVATE);
-        if(sharedPref.contains(fileName)){
-            Intent startQuizIntent = new Intent(MainActivity.this, destination);
-            startActivity(startQuizIntent);
-        }else{
-            //Get the requested info from api
-            getRequest(region);
-            //Once response is acquired and saved to sharedPref, then continue
-        }
-    }
 
     
 }
