@@ -24,9 +24,6 @@ public class QuizActivity extends AppCompatActivity {
 
         mCountries = Country.getCountries(region, this);
 
-        for(Country c : mCountries){
-            Log.d("COUNTRY", c.getName());
-        }
     }
 
 

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">CountryQuiz</string>
+    <string name="main_activity_header">Choose a Region</string>
 </resources>
