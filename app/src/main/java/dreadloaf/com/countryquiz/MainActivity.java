@@ -26,7 +26,7 @@ import java.util.Map;
 import dreadloaf.com.countryquiz.util.JsonUtil;
 
 public class MainActivity extends AppCompatActivity {
-
+    //TODO: Add a splashscreen to show before this activity is loaded
     /*
     * User will press button specifying the region
     * getRequest will be called to get the data
