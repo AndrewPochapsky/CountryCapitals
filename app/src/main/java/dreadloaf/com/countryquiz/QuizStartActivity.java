@@ -2,6 +2,8 @@ package dreadloaf.com.countryquiz;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -20,7 +22,7 @@ public class QuizStartActivity extends AppCompatActivity {
     Country[] mCountries;
     TextView mHeader;
     Button mStartButton;
-    String region;
+    String mRegion;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,17 +35,17 @@ public class QuizStartActivity extends AppCompatActivity {
         //Get the region chosen by user
         Intent previousActivityIntent = getIntent();
         if(previousActivityIntent.hasExtra("region")){
-            region = previousActivityIntent.getStringExtra("region");
+            mRegion = previousActivityIntent.getStringExtra("region");
         }
 
-        String headerText ="Capitals of " + region.substring(0, 1).toUpperCase() + region.substring(1);
+        String headerText ="Capitals of " + mRegion.substring(0, 1).toUpperCase() + mRegion.substring(1);
 
         mHeader.setText(headerText);
 
         mStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onQuizStart(region);
+                onQuizStart();
             }
         });
     }
@@ -54,38 +56,12 @@ public class QuizStartActivity extends AppCompatActivity {
     }
 
     //Set up all questions for quiz, put them in a queue, send queue to next activity
-    private void onQuizStart(String region){
-        Random rand = new Random();
-        mCountries = Country.getCountries(region, this);
-        shuffleArray(mCountries);
-        int max = mCountries.length;
-        Queue<Question> questions = new LinkedList<>();
-        //TODO: create constant for number of questions
-        int numQuestions = 10;
-        int numCapitals = 4;
-        int current = 0;
-        for(int i = 0; i < numQuestions; i++){
-            //Key = Capital, Value = Name;
-            HashMap<String, String> capitalsMap = new HashMap<>();
-            //Set the answer to be the first index in the batch(arbitrary choice, should be random)
-            String answer = mCountries[current].getCapital();
-            for(int x = 0; x < numCapitals; x++){
-                Country currentCountry = mCountries[current];
-                capitalsMap.put(currentCountry.getCapital(), currentCountry.getName());
-                current++;
-            }
-            questions.add(new Question(capitalsMap, answer));
-        }
-        /*
-        while(questions.size() > 0){
-            Question question = questions.poll();
-            String options = "";
-            for(String key: question.getCapitals().keySet()){
-                options += key + " ";
-            }
-            Log.d("QUESTION", "Options: " + options + " | Answer: " + question.getCapitals().get(question.getAnswer()));
-        }*/
-
+    private void onQuizStart(){
+        Queue<Question> questions = setupQuestions();
+        Intent intent = new Intent(QuizStartActivity.this, QuizInProgressActivity.class);
+        Question[] _questions = null;
+        intent.putExtra("questions", _questions);
+        startActivity(intent);
     }
 
     private void shuffleArray(Country[] array)
@@ -106,6 +82,28 @@ public class QuizStartActivity extends AppCompatActivity {
         }
     }
 
+    private Queue<Question> setupQuestions(){
+        int numQuestions = 10;
+        int numCapitals = 4;
+        int current = 0;
 
-
+        mCountries = Country.getCountries(mRegion, this);
+        shuffleArray(mCountries);
+        Queue<Question> questions = new LinkedList<>();
+        for(int i = 0; i < numQuestions; i++){
+            //Key = Capital, Value = Name;
+            HashMap<String, String> capitalsMap = new HashMap<>();
+            //Set the answer to be the first index in the batch(arbitrary choice, should be random)
+            String answer = mCountries[current].getCapital();
+            for(int x = 0; x < numCapitals; x++){
+                Country currentCountry = mCountries[current];
+                capitalsMap.put(currentCountry.getCapital(), currentCountry.getName());
+                current++;
+            }
+            questions.add(new Question(capitalsMap, answer));
+        }
+        return questions;
+    }
 }
+
+

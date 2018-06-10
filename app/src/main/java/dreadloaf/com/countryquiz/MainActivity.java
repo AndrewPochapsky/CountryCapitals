@@ -113,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
         requestQueue.add(arrayRequest);
     }
 
-
     private void loadQuizActivity(String region){
         Intent startQuizIntent = new Intent(MainActivity.this, QuizStartActivity.class);
         startQuizIntent.putExtra("region", region);
