@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -18,10 +19,7 @@ import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -35,7 +33,8 @@ public class MainActivity extends AppCompatActivity {
     * Next activity will be loaded once this is done
     * */
 
-    Button mEuropeButton;
+    Button mEuropeButton, mAsiaButton;
+    ProgressBar mLoadingIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +46,8 @@ public class MainActivity extends AppCompatActivity {
         pref.edit().clear().apply();
 
         mEuropeButton = findViewById(R.id.region_europe);
+        mAsiaButton = findViewById(R.id.region_asia);
+        mLoadingIndicator = findViewById(R.id.loading_indicator);
 
         mEuropeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +55,14 @@ public class MainActivity extends AppCompatActivity {
                 onRegionSelected(mEuropeButton.getText().toString().toLowerCase());
             }
         });
+
+        mAsiaButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onRegionSelected(mAsiaButton.getText().toString().toLowerCase());
+            }
+        });
+
     }
 
     private void onRegionSelected(String region){
@@ -71,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getRequestForRegion(final String region) {
+        mLoadingIndicator.setVisibility(View.VISIBLE);
         String URL = "https://restcountries-v1.p.mashape.com/region/" + region;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
@@ -78,11 +88,11 @@ public class MainActivity extends AppCompatActivity {
                 null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-
                 String fileName = "countries_" + region;
                 JsonUtil.saveJson(response.toString(), fileName, MainActivity.this);
                 Log.d("JSON", "Saved Json");
                 loadQuizActivity(region);
+                mLoadingIndicator.setVisibility(View.INVISIBLE);
             }
 
         }, new Response.ErrorListener() {
@@ -105,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void loadQuizActivity(String region){
-        Intent startQuizIntent = new Intent(MainActivity.this, QuizActivity.class);
+        Intent startQuizIntent = new Intent(MainActivity.this, QuizStartActivity.class);
         startQuizIntent.putExtra("region", region);
         startActivity(startQuizIntent);
     }

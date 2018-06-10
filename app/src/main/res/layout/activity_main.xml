@@ -39,5 +39,10 @@
             android:textSize="25sp"
             android:id="@+id/region_asia"/>
     </LinearLayout>
-
+    <ProgressBar
+        android:id="@+id/loading_indicator"
+        android:layout_height="42dp"
+        android:layout_width="42dp"
+        android:layout_gravity="center"
+        android:visibility="invisible" />
 </LinearLayout>
