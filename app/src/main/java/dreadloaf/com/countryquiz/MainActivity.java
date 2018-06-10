@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //TODO: Remove this when done testing(next two lines)
-        SharedPreferences pref = getSharedPreferences("appData", Context.MODE_PRIVATE);
-        pref.edit().clear().apply();
+        //SharedPreferences pref = getSharedPreferences("appData", Context.MODE_PRIVATE);
+        //pref.edit().clear().apply();
 
         mEuropeButton = findViewById(R.id.region_europe);
         mAsiaButton = findViewById(R.id.region_asia);
@@ -66,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void onRegionSelected(String region){
+        mLoadingIndicator.setVisibility(View.VISIBLE);
+
         String fileName = "countries_" + region;
         SharedPreferences sharedPref = getSharedPreferences("appData", Context.MODE_PRIVATE);
 
@@ -80,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getRequestForRegion(final String region) {
-        mLoadingIndicator.setVisibility(View.VISIBLE);
         String URL = "https://restcountries-v1.p.mashape.com/region/" + region;
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
@@ -92,7 +93,6 @@ public class MainActivity extends AppCompatActivity {
                 JsonUtil.saveJson(response.toString(), fileName, MainActivity.this);
                 Log.d("JSON", "Saved Json");
                 loadQuizActivity(region);
-                mLoadingIndicator.setVisibility(View.INVISIBLE);
             }
 
         }, new Response.ErrorListener() {
