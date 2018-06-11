@@ -1,11 +1,8 @@
 package dreadloaf.com.countryquiz;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
 import java.util.HashMap;
 
-public class Question implements Parcelable {
+public class Question {
     //Key = Capital, Value = Country Name
     private HashMap<String, String> capitalsMap;
     //The capital which is the answer
@@ -14,10 +11,6 @@ public class Question implements Parcelable {
     public Question(HashMap<String,String> capitalsMap, String answer){
         this.capitalsMap = capitalsMap;
         this.answer = answer;
-    }
-
-    protected Question(Parcel in) {
-        answer = in.readString();
     }
 
     //Returns a String array containing all of the capitals
@@ -45,29 +38,4 @@ public class Question implements Parcelable {
     public boolean isCorrectAnswer(String userAnswer){
         return userAnswer.equals(answer);
     }
-
-    //region Parcelable Implementation
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(answer);
-    }
-
-
-    public static final Creator<Question> CREATOR = new Creator<Question>() {
-        @Override
-        public Question createFromParcel(Parcel in) {
-            return new Question(in);
-        }
-
-        @Override
-        public Question[] newArray(int size) {
-            return new Question[size];
-        }
-    };
-    //endregion
 }
