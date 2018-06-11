@@ -6,21 +6,31 @@ import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.TextView;
 
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 
-public class QuizInProgressActivity extends AppCompatActivity {
+public class QuizInProgressActivity extends AppCompatActivity implements View.OnClickListener{
     
     String mRegion;
     Queue<Question> mQuestions;
+    TextView mQuestionTextView;
+    GridLayout mButtonGrid;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+        setContentView(R.layout.activity_quiz_inprogress);
+
+        mQuestionTextView = findViewById(R.id.quiz_inprogress_header);
+        mButtonGrid = findViewById(R.id.quiz_button_grid);
+
         //Get the region chosen by user
         Intent previousActivityIntent = getIntent();
         if(previousActivityIntent.hasExtra("region")){
@@ -28,6 +38,16 @@ public class QuizInProgressActivity extends AppCompatActivity {
         }
         mQuestions = setupQuestions();
 
+        for(int i = 0; i < mButtonGrid.getChildCount(); i++){
+            Button button = (Button)mButtonGrid.getChildAt(i);
+            button.setOnClickListener(this);
+        }
+    }
+
+    @Override
+    public void onClick(View view) {
+        Button button = (Button)view;
+        Log.d("BUTTON", "Clicked " + button.getText().toString());
     }
 
     private Queue<Question> setupQuestions(){
@@ -55,8 +75,7 @@ public class QuizInProgressActivity extends AppCompatActivity {
     }
 
 
-    private void shuffleArray(Country[] array)
-    {
+    private void shuffleArray(Country[] array) {
         if(array == null){
             Log.e("SHUFFLE", "Specified array to shuffle is null");
             return;
@@ -72,4 +91,5 @@ public class QuizInProgressActivity extends AppCompatActivity {
             array[i] = temp;
         }
     }
+
 }

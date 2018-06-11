@@ -1,8 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="dreadloaf.com.countryquiz.QuizStartActivity">
+    tools:context="dreadloaf.com.countryquiz.QuizInProgressActivity">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/placeholder"
+        android:gravity="center_horizontal"
+        android:textColor="@android:color/black"
+        android:textSize="30sp"
+        android:id="@+id/quiz_inprogress_header"/>
 
-</android.support.constraint.ConstraintLayout>
+    <GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="150dp"
+        android:columnCount="2"
+        android:orientation="vertical"
+        android:rowCount="2"
+        android:id="@+id/quiz_button_grid">
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="85dp"
+            android:layout_gravity="start"
+            android:text="option 1" />
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="85dp"
+            android:layout_gravity="start"
+            android:text="option 2" />
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="85dp"
+            android:layout_gravity="start"
+            android:text="option 3" />
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="85dp"
+            android:layout_gravity="start"
+            android:text="option 4" />
+    </GridLayout>
+
+
+
+</RelativeLayout>
