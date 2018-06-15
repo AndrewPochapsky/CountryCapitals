@@ -18,6 +18,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -32,7 +33,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
     String mRegion;
     Queue<Question> mQuestions;
     TextView mQuestionTextView, mProgressTextView;
-    GridLayout mButtonGrid;
+    LinearLayout mFirstRow, mSecondRow;
     ProgressBar mTimer;
     ObjectAnimator mAnimation;
     Question mCurrentQuestion;
@@ -50,10 +51,11 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
         setContentView(R.layout.activity_quiz_inprogress);
 
         mQuestionTextView = findViewById(R.id.quiz_inprogress_header);
-        mButtonGrid = findViewById(R.id.quiz_button_grid);
+        mFirstRow = findViewById(R.id.first_button_row);
+        mSecondRow = findViewById(R.id.second_button_row);
         mTimer = findViewById(R.id.timer);
-        mProgressTextView = findViewById(R.id.quiz_progress_textview);
-        mButtons = new Button[mButtonGrid.getChildCount()];
+        mProgressTextView = findViewById(R.id.progress_text);
+        mButtons = new Button[mSecondRow.getChildCount() + mFirstRow.getChildCount()];
 
         // Get the Drawable custom_progressbar
         Drawable draw=getResources().getDrawable(R.drawable.custom_progressbar);
@@ -66,23 +68,24 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
             mRegion = previousActivityIntent.getStringExtra("region");
         }
         mQuestions = setupQuestions();
-
-        for(int i = 0; i < mButtonGrid.getChildCount(); i++){
-            Button button = (Button)mButtonGrid.getChildAt(i);
-            mButtons[i] = button;
+        int index = 0;
+        for(int i = 0; i < mFirstRow.getChildCount(); i++){
+            Button button = (Button)mFirstRow.getChildAt(i);
+            mButtons[index] = button;
             button.setOnClickListener(this);
+            index++;
+        }
+        for(int i = 0; i < mSecondRow.getChildCount(); i++){
+            Button button = (Button)mSecondRow.getChildAt(i);
+            mButtons[index] = button;
+            button.setOnClickListener(this);
+            index++;
         }
 
         setupAnimation();
         setupNextQuestion();
-
-        mProgress = 1;
-        String text = mProgress + "/" + mNumQuestions;
-        mProgressTextView.setText(text);
-
+        updateProgressText();
         mAnimation.start();
-
-
     }
 
     @Override
@@ -96,11 +99,9 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
         else{
             //Answer is wrong, do something
         }
-        mProgress++;
-        String text = mProgress + "/" + mNumQuestions;
-        mProgressTextView.setText(text);
+        updateProgressText();
         setupNextQuestion();
-
+        mAnimation.start();
     }
 
     private Queue<Question> setupQuestions(){
@@ -160,8 +161,8 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
             public void onAnimationEnd(Animator animator) {
                 //if this happens, then the user has not clicked any option in time
                 //start next question and mark this one is wrong
-
-                //TODO: don't just start anim again
+                updateProgressText();
+                setupNextQuestion();
                 mAnimation.start();
             }
 
@@ -199,5 +200,11 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
             int end = text.length() -1;
             s.setSpan(new ForegroundColorSpan(Color.RED), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
+    }
+
+    private void updateProgressText(){
+        mProgress++;
+        String text = mProgress + "/" + mNumQuestions;
+        mProgressTextView.setText(text);
     }
 }

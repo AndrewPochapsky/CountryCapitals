@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:baselineAligned="false"
+    android:gravity="center_horizontal"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="dreadloaf.com.countryquiz.QuizInProgressActivity">
     <TextView
@@ -11,61 +13,73 @@
         android:text="@string/placeholder"
         android:gravity="center_horizontal"
         android:textColor="@android:color/black"
-        android:textSize="40dp"
+        android:textSize="40sp"
         android:id="@+id/quiz_inprogress_header"
         android:lines="3"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"/>
 
-    <GridLayout
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp"
-        android:columnCount="2"
-        android:orientation="vertical"
-        android:rowCount="2"
-        android:id="@+id/quiz_button_grid">
-
-        <Button
-            style="@style/quizButton"/>
-
-        <Button
-            style="@style/quizButton"/>
-
+        android:orientation="horizontal"
+        android:id="@+id/first_button_row">
         <Button
             style="@style/quizButton" />
+        <Button
+            style="@style/quizButton"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/second_button_row">
+        <Button
+            style="@style/quizButton"/>
 
         <Button
             style="@style/quizButton"/>
-    </GridLayout>
-
-    <ProgressBar
-        android:id="@+id/timer"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:progressDrawable="@drawable/custom_progressbar"
+    </LinearLayout>
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:max="100"
-        android:progress="0"
+        android:gravity="center_horizontal">
 
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginBottom="5dp"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/placeholder"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="40dp"
-        android:textColor="@android:color/black"
-        android:id="@+id/quiz_progress_textview"
-        android:textSize="20sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/timer"
+            android:layout_centerHorizontal="true"
+            android:text="@string/time_left"
+            android:textColor="@android:color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="5dp"
+            android:layout_above="@+id/timer"
+            android:layout_centerHorizontal="true"
+            android:text="X/10"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:id="@+id/progress_text"/>
 
 
-</RelativeLayout>
+        <ProgressBar
+            android:id="@+id/timer"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:progressDrawable="@drawable/custom_progressbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="0"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"
+            android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -3,4 +3,5 @@
     <string name="main_activity_header">Choose a Region</string>
     <string name="placeholder">Placeholder Text</string>
     <string name="start_quiz_button">Start Quiz</string>
+    <string name="time_left">Time Left</string>
 </resources>
