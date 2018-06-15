@@ -19,6 +19,8 @@
         </activity>
         <activity android:name=".QuizStartActivity" android:theme="@style/noAnimTheme"></activity>
         <activity android:name=".QuizInProgressActivity" android:theme="@style/noAnimTheme"></activity>
+        <activity android:name=".QuizEndActivity" android:theme="@style/noAnimTheme"></activity>
+
     </application>
 
 </manifest>

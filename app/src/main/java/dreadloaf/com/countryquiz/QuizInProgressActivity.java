@@ -183,6 +183,11 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
         if(nextQuestion ==  null){
             //End of quiz
             //Load next activity
+            //TODO: load next activity and pass on the score and stuff as well
+            Intent intent = new Intent(QuizInProgressActivity.this, QuizEndActivity.class);
+            String score = mNumCorrect + "/" + mNumQuestions;
+            intent.putExtra("score", score);
+            startActivity(intent);
         }
         else{
             mCurrentQuestion = nextQuestion;
