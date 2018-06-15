@@ -30,7 +30,7 @@ public class Question {
     }
 
     //Returns the country name part of the answer
-    public String getAnswerName(){
+    public String getAnswerCountry(){
         return capitalsMap.get(answer);
     }
 

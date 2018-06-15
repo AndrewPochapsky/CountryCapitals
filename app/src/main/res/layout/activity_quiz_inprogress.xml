@@ -11,8 +11,11 @@
         android:text="@string/placeholder"
         android:gravity="center_horizontal"
         android:textColor="@android:color/black"
-        android:textSize="30sp"
-        android:id="@+id/quiz_inprogress_header"/>
+        android:textSize="40dp"
+        android:id="@+id/quiz_inprogress_header"
+        android:lines="3"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"/>
 
     <GridLayout
         android:layout_width="wrap_content"
@@ -26,28 +29,16 @@
         android:id="@+id/quiz_button_grid">
 
         <Button
-            android:layout_width="150dp"
-            android:layout_height="85dp"
-            android:layout_gravity="start"
-            android:text="option 1" />
+            style="@style/quizButton"/>
 
         <Button
-            android:layout_width="150dp"
-            android:layout_height="85dp"
-            android:layout_gravity="start"
-            android:text="option 2" />
+            style="@style/quizButton"/>
 
         <Button
-            android:layout_width="150dp"
-            android:layout_height="85dp"
-            android:layout_gravity="start"
-            android:text="option 3" />
+            style="@style/quizButton" />
 
         <Button
-            android:layout_width="150dp"
-            android:layout_height="85dp"
-            android:layout_gravity="start"
-            android:text="option 4" />
+            style="@style/quizButton"/>
     </GridLayout>
 
     <ProgressBar
