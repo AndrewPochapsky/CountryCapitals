@@ -56,6 +56,16 @@
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
         />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/placeholder"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"
+        android:textColor="@android:color/black"
+        android:id="@+id/quiz_progress_textview"
+        android:textSize="20sp"/>
 
 
 </RelativeLayout>

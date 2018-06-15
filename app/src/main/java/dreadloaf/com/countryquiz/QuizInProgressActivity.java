@@ -31,15 +31,18 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
 
     String mRegion;
     Queue<Question> mQuestions;
-    TextView mQuestionTextView;
+    TextView mQuestionTextView, mProgressTextView;
     GridLayout mButtonGrid;
     ProgressBar mTimer;
     ObjectAnimator mAnimation;
     Question mCurrentQuestion;
     Button[] mButtons;
     int mNumCorrect;
+    int mProgress;
 
     final int mMaxTimerValue = 100;
+    final int mNumQuestions = 10;
+    final int mNumCapitals = 4;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,6 +52,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
         mQuestionTextView = findViewById(R.id.quiz_inprogress_header);
         mButtonGrid = findViewById(R.id.quiz_button_grid);
         mTimer = findViewById(R.id.timer);
+        mProgressTextView = findViewById(R.id.quiz_progress_textview);
         mButtons = new Button[mButtonGrid.getChildCount()];
 
         // Get the Drawable custom_progressbar
@@ -71,6 +75,11 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
 
         setupAnimation();
         setupNextQuestion();
+
+        mProgress = 1;
+        String text = mProgress + "/" + mNumQuestions;
+        mProgressTextView.setText(text);
+
         mAnimation.start();
 
 
@@ -81,27 +90,32 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
         Button button = (Button)view;
         Log.d("BUTTON", "Clicked " + button.getText().toString());
         if(mCurrentQuestion.isCorrectAnswer(button.getText().toString())){
+            //Answer is right
             mNumCorrect++;
-            setupNextQuestion();
         }
+        else{
+            //Answer is wrong, do something
+        }
+        mProgress++;
+        String text = mProgress + "/" + mNumQuestions;
+        mProgressTextView.setText(text);
+        setupNextQuestion();
 
     }
 
     private Queue<Question> setupQuestions(){
-        int numQuestions = 10;
-        int numCapitals = 4;
         int current = 0;
 
         Country[] countries = Country.getCountries(mRegion, this);
         shuffleArray(countries);
         Queue<Question> questions = new LinkedList<>();
-        for(int i = 0; i < numQuestions; i++){
+        for(int i = 0; i < mNumQuestions; i++){
             //Key = Capital, Value = Name;
             HashMap<String, String> capitalsMap = new HashMap<>();
 
             //Set the answer to be the first index in the batch(arbitrary choice, should be random)
             String answer = countries[current].getCapital();
-            for(int x = 0; x < numCapitals; x++){
+            for(int x = 0; x < mNumCapitals; x++){
                 Country currentCountry = countries[current];
                 capitalsMap.put(currentCountry.getCapital(), currentCountry.getName());
                 current++;
