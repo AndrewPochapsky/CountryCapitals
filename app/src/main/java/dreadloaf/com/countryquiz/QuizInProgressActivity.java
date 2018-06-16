@@ -40,6 +40,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
     Button[] mButtons;
     int mNumCorrect;
     int mProgress;
+    boolean mFinished = false;
 
     final int mMaxTimerValue = 100;
     final int mNumQuestions = 10;
@@ -68,6 +69,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
             mRegion = previousActivityIntent.getStringExtra("region");
         }
         mQuestions = setupQuestions();
+        Log.d("QUIZ", "There are " + mQuestions.size() + " Questions");
         int index = 0;
         for(int i = 0; i < mFirstRow.getChildCount(); i++){
             Button button = (Button)mFirstRow.getChildAt(i);
@@ -81,11 +83,13 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
             button.setOnClickListener(this);
             index++;
         }
-
+        mNumCorrect = 0;
+        mProgress = 0;
         setupAnimation();
         setupNextQuestion();
         updateProgressText();
         mAnimation.start();
+        Log.d("QUIZ", "OnCreate");
     }
 
     @Override
@@ -148,9 +152,9 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
         //Is multiplied by 100 to ensure for a smooth animation, going up by 1 makes it look choppy
         mTimer.setMax(mMaxTimerValue*100);
 
-        mAnimation = ObjectAnimator.ofInt(mTimer, "progress", 0, mMaxTimerValue * 100);
+        mAnimation = ObjectAnimator.ofInt(mTimer, "progress", mTimer.getProgress(), mMaxTimerValue * 100);
         mAnimation.setInterpolator(new LinearInterpolator());
-        mAnimation.setDuration(10000);
+        mAnimation.setDuration(5000);
         mAnimation.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
@@ -159,11 +163,13 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
 
             @Override
             public void onAnimationEnd(Animator animator) {
-                //if this happens, then the user has not clicked any option in time
-                //start next question and mark this one is wrong
-                updateProgressText();
-                setupNextQuestion();
-                mAnimation.start();
+                if(!mFinished){
+                    //if this happens, then the user has not clicked any option in time
+                    //start next question and mark this one is wrong
+                    updateProgressText();
+                    setupNextQuestion();
+                    Log.d("Animation", "Animation mFinished");
+                }
             }
 
             @Override
@@ -180,16 +186,19 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
 
     private void setupNextQuestion(){
         Question nextQuestion = mQuestions.poll();
+        Log.d("QUIZ", "Setting up queestion");
         if(nextQuestion ==  null){
+            Log.d("QUIZ", "ENDING");
             //End of quiz
-            //Load next activity
-            //TODO: load next activity and pass on the score and stuff as well
             Intent intent = new Intent(QuizInProgressActivity.this, QuizEndActivity.class);
             String score = mNumCorrect + "/" + mNumQuestions;
             intent.putExtra("score", score);
+            mFinished = true;
             startActivity(intent);
         }
         else{
+            Log.d("Animation", "There is another question indeed");
+            mAnimation.start();
             mCurrentQuestion = nextQuestion;
             String[] capitals = mCurrentQuestion.getCapitals();
             for(int i = 0; i < capitals.length; i++){
@@ -208,8 +217,10 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
     }
 
     private void updateProgressText(){
-        mProgress++;
-        String text = mProgress + "/" + mNumQuestions;
-        mProgressTextView.setText(text);
+        if(mProgress < mNumQuestions){
+            mProgress++;
+            String text = mProgress + "/" + mNumQuestions;
+            mProgressTextView.setText(text);
+        }
     }
 }

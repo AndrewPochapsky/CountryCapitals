@@ -42,7 +42,6 @@ public class QuizEndActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(QuizEndActivity.this, MainActivity.class);
-
                 startActivity(intent);
             }
         });
