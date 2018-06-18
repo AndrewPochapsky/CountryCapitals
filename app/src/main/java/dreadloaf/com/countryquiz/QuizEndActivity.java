@@ -35,7 +35,7 @@ public class QuizEndActivity extends AppCompatActivity {
             score = previousActivityIntent.getStringExtra("score");
         }
 
-        String text = "You got " + score + " correct!";
+        String text = "You got a score of " + score + "!";
         mHeader.setText(text);
 
         mReturnButton.setOnClickListener(new View.OnClickListener() {

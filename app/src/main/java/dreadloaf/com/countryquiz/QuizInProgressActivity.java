@@ -5,8 +5,10 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -27,24 +29,29 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class QuizInProgressActivity extends AppCompatActivity implements View.OnClickListener{
 
     String mRegion;
     Queue<Question> mQuestions;
-    TextView mQuestionTextView, mProgressTextView;
+    TextView mQuestionTextView, mProgressTextView, mScoreTextView;
     LinearLayout mFirstRow, mSecondRow;
-    ProgressBar mTimer;
+    ProgressBar mTimerProgressBar;
     ObjectAnimator mAnimation;
     Question mCurrentQuestion;
     Button[] mButtons;
     int mNumCorrect;
+    int mScore;
     int mProgress;
     boolean mFinished = false;
 
     final int mMaxTimerValue = 100;
     final int mNumQuestions = 10;
     final int mNumCapitals = 4;
+    final int mDuration = 10000;
+    final int mBaseScore = 100;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,14 +61,15 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
         mQuestionTextView = findViewById(R.id.quiz_inprogress_header);
         mFirstRow = findViewById(R.id.first_button_row);
         mSecondRow = findViewById(R.id.second_button_row);
-        mTimer = findViewById(R.id.timer);
+        mTimerProgressBar = findViewById(R.id.timer);
         mProgressTextView = findViewById(R.id.progress_text);
+        mScoreTextView = findViewById(R.id.quiz_score_text);
         mButtons = new Button[mSecondRow.getChildCount() + mFirstRow.getChildCount()];
 
         // Get the Drawable custom_progressbar
         Drawable draw=getResources().getDrawable(R.drawable.custom_progressbar);
         // set the drawable as progress drawable
-        mTimer.setProgressDrawable(draw);
+        mTimerProgressBar.setProgressDrawable(draw);
 
         //Get the region chosen by user
         Intent previousActivityIntent = getIntent();
@@ -83,22 +91,23 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
             button.setOnClickListener(this);
             index++;
         }
-        mNumCorrect = 0;
-        mProgress = 0;
         setupAnimation();
         setupNextQuestion();
         updateProgressText();
+        mScoreTextView.setText(String.valueOf(mScore));
         mAnimation.start();
-        Log.d("QUIZ", "OnCreate");
     }
 
     @Override
     public void onClick(View view) {
         Button button = (Button)view;
-        Log.d("BUTTON", "Clicked " + button.getText().toString());
         if(mCurrentQuestion.isCorrectAnswer(button.getText().toString())){
             //Answer is right
             mNumCorrect++;
+            //update score
+            calculateScore(mTimerProgressBar.getProgress());
+            mScoreTextView.setText(String.valueOf(mScore));
+
         }
         else{
             //Answer is wrong, do something
@@ -106,6 +115,13 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
         updateProgressText();
         setupNextQuestion();
         mAnimation.start();
+
+    }
+
+    private void calculateScore(int timePassed) {
+        timePassed /= 100;
+        //10 is subtracted to make the score more attuned to the progress
+        mScore += (mBaseScore - (timePassed - 10));
     }
 
     private Queue<Question> setupQuestions(){
@@ -150,16 +166,13 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
 
     private void setupAnimation(){
         //Is multiplied by 100 to ensure for a smooth animation, going up by 1 makes it look choppy
-        mTimer.setMax(mMaxTimerValue*100);
-
-        mAnimation = ObjectAnimator.ofInt(mTimer, "progress", mTimer.getProgress(), mMaxTimerValue * 100);
+        mTimerProgressBar.setMax(mMaxTimerValue*100);
+        mAnimation = ObjectAnimator.ofInt(mTimerProgressBar, "progress", mTimerProgressBar.getProgress(), mMaxTimerValue * 100);
         mAnimation.setInterpolator(new LinearInterpolator());
-        mAnimation.setDuration(5000);
+        mAnimation.setDuration(mDuration);
         mAnimation.addListener(new Animator.AnimatorListener() {
             @Override
-            public void onAnimationStart(Animator animator) {
-
-            }
+            public void onAnimationStart(Animator animator) { }
 
             @Override
             public void onAnimationEnd(Animator animator) {
@@ -168,42 +181,36 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
                     //start next question and mark this one is wrong
                     updateProgressText();
                     setupNextQuestion();
-                    Log.d("Animation", "Animation mFinished");
+                    Log.d("Animation", "Animation finished");
                 }
             }
 
             @Override
-            public void onAnimationCancel(Animator animator) {
-
-            }
+            public void onAnimationCancel(Animator animator) { }
 
             @Override
-            public void onAnimationRepeat(Animator animator) {
-
-            }
+            public void onAnimationRepeat(Animator animator) { }
         });
     }
 
     private void setupNextQuestion(){
         Question nextQuestion = mQuestions.poll();
-        Log.d("QUIZ", "Setting up queestion");
         if(nextQuestion ==  null){
-            Log.d("QUIZ", "ENDING");
             //End of quiz
             Intent intent = new Intent(QuizInProgressActivity.this, QuizEndActivity.class);
-            String score = mNumCorrect + "/" + mNumQuestions;
-            intent.putExtra("score", score);
+            //String score = mNumCorrect + "/" + mNumQuestions;
+            intent.putExtra("score", String.valueOf(mScore));
             mFinished = true;
             startActivity(intent);
         }
         else{
-            Log.d("Animation", "There is another question indeed");
             mAnimation.start();
             mCurrentQuestion = nextQuestion;
             String[] capitals = mCurrentQuestion.getCapitals();
             for(int i = 0; i < capitals.length; i++){
                 mButtons[i].setText(capitals[i]);
             }
+
             String prefix = "What is the capital of ";
             String suffix = mCurrentQuestion.getAnswerCountry() + "?";
             String text = prefix + suffix;
