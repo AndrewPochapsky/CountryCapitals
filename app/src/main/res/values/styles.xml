@@ -7,10 +7,17 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
     <style name="noAnimTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowAnimationStyle">@null</item>
     </style>
-    <style name="quizButton">
+
+    <style name="AppTheme.QuizButton" parent = "Widget.AppCompat.Button.Colored">
+        <item name="android:colorButtonNormal">@color/colorQuizPrimary</item>
+        <item name="android:textColor">@color/colorQuizText</item>
+    </style>
+
+    <style name="quizButtonStyle">
         <item name ="android:textSize">22sp</item>
         <item name="android:layout_gravity">start</item>
         <item name="android:layout_width">170dp</item>

@@ -1,7 +1,10 @@
 package dreadloaf.com.countryquiz;
 
 import android.animation.Animator;
+import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -14,12 +17,15 @@ import android.os.Handler;
 import android.os.PersistableBundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.BounceInterpolator;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
 import android.widget.GridLayout;
@@ -34,7 +40,7 @@ import java.util.Queue;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
-
+//TODO: pause quiz when exiting the app
 public class QuizInProgressActivity extends AppCompatActivity implements View.OnClickListener{
 
     String mRegion;
@@ -50,15 +56,16 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
     int mScore;
     int mProgress;
     boolean mFinished = false;
+    int mButtonDefaultColor;
 
     final int mMaxTimerValue = 100;
     final int mNumQuestions = 10;
     final int mNumCapitals = 4;
-    final int mDuration = 10000;
+    final int mMaxQuestionDuration = 10000;
+    final int mEndAnimationDuration = 500;
     final int mBaseScore = 100;
-    final  int mButtonDefaultColor = Color.LTGRAY;
+    final Handler timerHandler = new Handler();
 
-    Handler timerHandler = new Handler();
     Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
@@ -68,6 +75,13 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
             mAnimation.start();
         }
     };
+    
+    class ReverseInterpolator implements Interpolator {
+        @Override
+        public float getInterpolation(float paramFloat) {
+            return Math.abs(paramFloat -1f);
+        }
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,6 +94,8 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
         mTimerProgressBar = findViewById(R.id.timer);
         mProgressTextView = findViewById(R.id.progress_text);
         mScoreTextView = findViewById(R.id.quiz_score_text);
+        mButtonDefaultColor = ContextCompat.getColor(this, R.color.colorQuizPrimary);
+
         mButtons = new Button[mSecondRow.getChildCount() + mFirstRow.getChildCount()];
 
         // Get the Drawable custom_progressbar
@@ -117,26 +133,36 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onClick(View view) {
+        int colorTo;
+        int colorFrom = mButtonDefaultColor;
         mPressedButton = (Button)view;
         //Answer is right
         if(mCurrentQuestion.isCorrectAnswer(mPressedButton.getText().toString())){
             mNumCorrect++;
-            //set color of button to green
-            mPressedButton.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
+            colorTo = Color.GREEN;
             //update score
             calculateScore(mTimerProgressBar.getProgress());
             mScoreTextView.setText(String.valueOf(mScore));
-
         }
         else{
-            //Answer is wrong
-            //set color of button to red
-            mPressedButton.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
-
+            colorTo = Color.RED;
         }
+
+        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+        colorAnimation.setDuration(mEndAnimationDuration);
+        colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animator) {
+                mPressedButton.getBackground().setColorFilter((int) animator.getAnimatedValue(), PorterDuff.Mode.MULTIPLY);
+            }
+        });
+
+        colorAnimation.setInterpolator(new ReverseInterpolator());
+        colorAnimation.start();
+
         //Wait
         mAnimation.pause();
-        timerHandler.postDelayed(timerRunnable, 1000);
+        timerHandler.postDelayed(timerRunnable, mEndAnimationDuration);
     }
 
     private void calculateScore(int timePassed) {
@@ -190,7 +216,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
         mTimerProgressBar.setMax(mMaxTimerValue*100);
         mAnimation = ObjectAnimator.ofInt(mTimerProgressBar, "progress", mTimerProgressBar.getProgress(), mMaxTimerValue * 100);
         mAnimation.setInterpolator(new LinearInterpolator());
-        mAnimation.setDuration(mDuration);
+        mAnimation.setDuration(mMaxQuestionDuration);
         mAnimation.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) { }
