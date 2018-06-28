@@ -4,12 +4,15 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.PersistableBundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Spannable;
@@ -42,6 +45,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
     ObjectAnimator mAnimation;
     Question mCurrentQuestion;
     Button[] mButtons;
+    Button mPressedButton;
     int mNumCorrect;
     int mScore;
     int mProgress;
@@ -52,6 +56,18 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
     final int mNumCapitals = 4;
     final int mDuration = 10000;
     final int mBaseScore = 100;
+    final  int mButtonDefaultColor = Color.LTGRAY;
+
+    Handler timerHandler = new Handler();
+    Runnable timerRunnable = new Runnable() {
+        @Override
+        public void run() {
+            mPressedButton.getBackground().setColorFilter(mButtonDefaultColor, PorterDuff.Mode.MULTIPLY);
+            updateProgressText();
+            setupNextQuestion();
+            mAnimation.start();
+        }
+    };
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -85,6 +101,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
             button.setOnClickListener(this);
             index++;
         }
+
         for(int i = 0; i < mSecondRow.getChildCount(); i++){
             Button button = (Button)mSecondRow.getChildAt(i);
             mButtons[index] = button;
@@ -100,22 +117,26 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onClick(View view) {
-        Button button = (Button)view;
-        if(mCurrentQuestion.isCorrectAnswer(button.getText().toString())){
-            //Answer is right
+        mPressedButton = (Button)view;
+        //Answer is right
+        if(mCurrentQuestion.isCorrectAnswer(mPressedButton.getText().toString())){
             mNumCorrect++;
+            //set color of button to green
+            mPressedButton.getBackground().setColorFilter(Color.GREEN, PorterDuff.Mode.MULTIPLY);
             //update score
             calculateScore(mTimerProgressBar.getProgress());
             mScoreTextView.setText(String.valueOf(mScore));
 
         }
         else{
-            //Answer is wrong, do something
-        }
-        updateProgressText();
-        setupNextQuestion();
-        mAnimation.start();
+            //Answer is wrong
+            //set color of button to red
+            mPressedButton.getBackground().setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY);
 
+        }
+        //Wait
+        mAnimation.pause();
+        timerHandler.postDelayed(timerRunnable, 1000);
     }
 
     private void calculateScore(int timePassed) {
