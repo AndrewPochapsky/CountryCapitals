@@ -4,18 +4,12 @@ import android.animation.Animator;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.os.Handler;
-import android.os.PersistableBundle;
-import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -23,24 +17,19 @@ import android.text.Spannable;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.BounceInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
-import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 //TODO: pause quiz when exiting the app
+//TODO: add city suffix to any capital which is just the name of the country
 public class QuizInProgressActivity extends AppCompatActivity implements View.OnClickListener{
 
     String mRegion;
@@ -56,6 +45,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
     int mScore;
     int mProgress;
     boolean mFinished = false;
+    boolean mRestPeriod = false;
     int mButtonDefaultColor;
 
     final int mMaxTimerValue = 100;
@@ -73,6 +63,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
             updateProgressText();
             setupNextQuestion();
             mAnimation.start();
+            mRestPeriod = false;
         }
     };
     
@@ -133,36 +124,40 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
 
     @Override
     public void onClick(View view) {
-        int colorTo;
-        int colorFrom = mButtonDefaultColor;
-        mPressedButton = (Button)view;
-        //Answer is right
-        if(mCurrentQuestion.isCorrectAnswer(mPressedButton.getText().toString())){
-            mNumCorrect++;
-            colorTo = Color.GREEN;
-            //update score
-            calculateScore(mTimerProgressBar.getProgress());
-            mScoreTextView.setText(String.valueOf(mScore));
-        }
-        else{
-            colorTo = Color.RED;
-        }
-
-        ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
-        colorAnimation.setDuration(mEndAnimationDuration);
-        colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-            @Override
-            public void onAnimationUpdate(ValueAnimator animator) {
-                mPressedButton.getBackground().setColorFilter((int) animator.getAnimatedValue(), PorterDuff.Mode.MULTIPLY);
+        //Prevents the user from clicking an additional answer to a question
+        if(!mRestPeriod){
+            int colorTo;
+            int colorFrom = mButtonDefaultColor;
+            mPressedButton = (Button)view;
+            //Answer is right
+            if(mCurrentQuestion.isCorrectAnswer(mPressedButton.getText().toString())){
+                mNumCorrect++;
+                colorTo = Color.GREEN;
+                //update score
+                calculateScore(mTimerProgressBar.getProgress());
+                mScoreTextView.setText(String.valueOf(mScore));
             }
-        });
+            else{
+                colorTo = Color.RED;
+            }
 
-        colorAnimation.setInterpolator(new ReverseInterpolator());
-        colorAnimation.start();
+            ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+            colorAnimation.setDuration(mEndAnimationDuration);
+            colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animator) {
+                    mPressedButton.getBackground().setColorFilter((int) animator.getAnimatedValue(), PorterDuff.Mode.MULTIPLY);
+                }
+            });
 
-        //Wait
-        mAnimation.pause();
-        timerHandler.postDelayed(timerRunnable, mEndAnimationDuration);
+            colorAnimation.setInterpolator(new ReverseInterpolator());
+            mRestPeriod = true;
+            colorAnimation.start();
+
+            //Wait
+            mAnimation.pause();
+            timerHandler.postDelayed(timerRunnable, mEndAnimationDuration);
+        }
     }
 
     private void calculateScore(int timePassed) {
@@ -247,6 +242,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
             Intent intent = new Intent(QuizInProgressActivity.this, QuizEndActivity.class);
             //String score = mNumCorrect + "/" + mNumQuestions;
             intent.putExtra("score", String.valueOf(mScore));
+            intent.putExtra("region", mRegion);
             mFinished = true;
             startActivity(intent);
         }

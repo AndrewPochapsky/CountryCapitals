@@ -1,12 +1,9 @@
 package dreadloaf.com.countryquiz;
 
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.IntentCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -15,7 +12,7 @@ import android.widget.TextView;
 
 public class QuizEndActivity extends AppCompatActivity {
 
-    TextView mHeader;
+    TextView mScoreText, mHighscoreText;
     Button mReturnButton;
 
     @Override
@@ -25,18 +22,23 @@ public class QuizEndActivity extends AppCompatActivity {
 
         Log.d("ACTIVITY", "Loaded final activity");
 
-        mHeader = findViewById(R.id.quiz_end_header);
+        mScoreText = findViewById(R.id.quiz_end_score);
+        mHighscoreText = findViewById(R.id.quiz_end_highscore);
         mReturnButton = findViewById(R.id.return_button);
 
         String score = "";
-
+        String region = "";
         Intent previousActivityIntent = getIntent();
         if(previousActivityIntent.hasExtra("score")){
             score = previousActivityIntent.getStringExtra("score");
         }
+        if(previousActivityIntent.hasExtra("region")){
+            region = previousActivityIntent.getStringExtra("region");
+        }
+        int highscore = determineHighscore(Integer.parseInt(score), region);
 
-        String text = "You got a score of " + score + "!";
-        mHeader.setText(text);
+        mScoreText.setText(score);
+        mHighscoreText.setText(String.valueOf(highscore));
 
         mReturnButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,5 +47,30 @@ public class QuizEndActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private int determineHighscore(int score, String region){
+        SharedPreferences shared = getSharedPreferences("appData", MODE_PRIVATE);
+        SharedPreferences.Editor editor = shared.edit();
+
+        String scoreName = "highscore_" + region;
+
+        int highscore = shared.getInt(scoreName, -1);
+        //There is no highscore
+        if(highscore == -1){
+            editor.putInt(scoreName, score);
+            editor.apply();
+            return score;
+        }else{
+            //new highscore
+            if(score > highscore){
+                editor.putInt(scoreName, score);
+                editor.apply();
+                return score;
+            }
+        }
+        //Existing highscore remains
+        return highscore;
+
     }
 }
