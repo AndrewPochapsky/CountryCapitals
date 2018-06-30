@@ -29,7 +29,8 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 //TODO: pause quiz when exiting the app
-//TODO: add city suffix to any capital which is just the name of the country
+//TODO: add city suffix to any capital which is just the name of the country(Only luxumbourg)
+//TODO: change capital of Holy See to Vatican City(is rome currently)
 public class QuizInProgressActivity extends AppCompatActivity implements View.OnClickListener{
 
     String mRegion;
@@ -158,6 +159,13 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
             mAnimation.pause();
             timerHandler.postDelayed(timerRunnable, mEndAnimationDuration);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        mFinished = true;
+        finish();
     }
 
     private void calculateScore(int timePassed) {

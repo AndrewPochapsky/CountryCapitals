@@ -7,4 +7,5 @@
     <string name="quiz_return">Return to Main</string>
     <string name="quiz_end_score_header"><u>Current Score</u></string>
     <string name="quiz_end_highscore_header"><u>Highscore</u></string>
+    <string name="main_menu_header">Country Quiz</string>
 </resources>

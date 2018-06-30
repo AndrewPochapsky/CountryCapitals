@@ -43,7 +43,7 @@ public class QuizEndActivity extends AppCompatActivity {
         mReturnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(QuizEndActivity.this, MainActivity.class);
+                Intent intent = new Intent(QuizEndActivity.this, ChooseRegionActivity.class);
                 startActivity(intent);
             }
         });

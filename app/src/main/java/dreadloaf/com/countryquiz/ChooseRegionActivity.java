@@ -25,7 +25,7 @@ import java.util.Map;
 
 import dreadloaf.com.countryquiz.util.JsonUtil;
 
-public class MainActivity extends AppCompatActivity {
+public class ChooseRegionActivity extends AppCompatActivity {
     //TODO: Add a splashscreen to show before this activity is loaded
     /*
     * User will press button specifying the region
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_choose_region);
 
         //TODO: Remove this when done testing(next two lines)
         //SharedPreferences pref = getSharedPreferences("appData", Context.MODE_PRIVATE);
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(JSONArray response) {
                 String fileName = "countries_" + region;
-                JsonUtil.saveJson(response.toString(), fileName, MainActivity.this);
+                JsonUtil.saveJson(response.toString(), fileName, ChooseRegionActivity.this);
                 Log.d("JSON", "Saved Json");
                 loadQuizActivity(region);
             }
@@ -114,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadQuizActivity(String region){
-        Intent startQuizIntent = new Intent(MainActivity.this, QuizStartActivity.class);
+        Intent startQuizIntent = new Intent(ChooseRegionActivity.this, QuizStartActivity.class);
         startQuizIntent.putExtra("region", region);
         startActivity(startQuizIntent);
     }

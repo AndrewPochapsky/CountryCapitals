@@ -42,7 +42,7 @@ public class QuizStartActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, ChooseRegionActivity.class));
     }
 
     //Set up all questions for quiz, put them in a queue, send queue to next activity
