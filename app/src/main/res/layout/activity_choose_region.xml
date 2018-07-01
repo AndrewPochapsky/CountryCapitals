@@ -4,40 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_height="wrap_content"
-    tools:context="dreadloaf.com.countryquiz.ChooseRegionActivity">
+    android:layout_height="match_parent"
+    tools:context="dreadloaf.com.countryquiz.ChooseRegionActivity"
+    android:background="@drawable/main_menu_gradient">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
         android:text="@string/main_activity_header"
-        android:textSize="35sp"
-        android:gravity="center"
-        android:textColor="@android:color/black"
+        android:textSize="65sp"
+        android:textColor="@color/colorMainMenuTitle"
         android:textStyle="bold"
-        />
+        android:fontFamily="sans-serif-smallcaps"
+        android:lines="2" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_marginEnd="100dp"
-        android:layout_marginStart="100dp"
-        android:layout_gravity="center"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        android:layout_marginStart="5dp">
 
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.MainStartButton"
+            android:layout_width="225dp"
+            android:layout_height="100dp"
             android:text="Europe"
-            android:textSize="25sp"
-            android:id="@+id/region_europe"/>
+            android:textSize="35sp"
+            android:id="@+id/region_europe"
+            android:textAlignment="textStart"/>
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme.MainStartButton"
+            android:layout_width="225dp"
+            android:layout_height="100dp"
             android:text="Asia"
-            android:textSize="25sp"
-            android:id="@+id/region_asia"/>
+            android:textSize="35sp"
+            android:id="@+id/region_asia"
+            android:textAlignment="textStart"/>
     </LinearLayout>
     <ProgressBar
         android:id="@+id/loading_indicator"
