@@ -5,5 +5,9 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorQuizPrimary">#6cbed5</color>
     <color name="colorQuizText">#ffff</color>
+    <color name="colorMainMenuTop">#498aec</color>
+    <color name="colorMainMenuBody">#176be9</color>
+    <color name="colorMainMenuTitle">#ffffff</color>
+    <color name="colorMainMenuButton">#ff4343</color>
 
 </resources>

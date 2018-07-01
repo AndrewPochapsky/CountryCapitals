@@ -5,34 +5,51 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="dreadloaf.com.countryquiz.MainMenuActivity">
+    tools:context="dreadloaf.com.countryquiz.MainMenuActivity"
+    android:background="@drawable/main_menu_gradient">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:text="@string/main_menu_header"
-        android:textSize="35sp"
-        android:textColor="@android:color/black" />
+        android:background="@color/colorMainMenuButton">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"
+            android:text="@string/main_menu_header"
+            android:textSize="65sp"
+            android:textColor="@color/colorMainMenuTitle"
+            android:textStyle="bold"
+            android:fontFamily="sans-serif-smallcaps"
+            android:lines="2" />
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center_vertical"
+        android:layout_marginStart="5dp">
 
         <Button
-            android:layout_width="150dp"
+            android:theme="@style/AppTheme.MainStartButton"
+            android:layout_width="225dp"
             android:layout_height="100dp"
             android:text="Start"
-            android:textSize="25sp"
-            android:id="@+id/main_menu_start"/>
+            android:textSize="35sp"
+            android:id="@+id/main_menu_start"
+            android:textAlignment="textStart"/>
         <Button
-            android:layout_width="150dp"
+            android:theme="@style/AppTheme.MainStartButton"
+            android:layout_width="225dp"
             android:layout_height="100dp"
             android:text="Options"
-            android:textSize="25sp"
-            android:id="@+id/main_menu_options"/>
+            android:textSize="35sp"
+            android:id="@+id/main_menu_options"
+            android:textAlignment="textStart"/>
     </LinearLayout>
 
 </LinearLayout>

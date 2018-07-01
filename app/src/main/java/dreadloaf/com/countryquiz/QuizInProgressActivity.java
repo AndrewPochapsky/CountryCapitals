@@ -29,7 +29,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 //TODO: pause quiz when exiting the app
-//TODO: add city suffix to any capital which is just the name of the country(Only luxumbourg)
+//TODO: add city suffix to any capital which is just the name of the country(Only luxembourg)
 //TODO: change capital of Holy See to Vatican City(is rome currently)
 public class QuizInProgressActivity extends AppCompatActivity implements View.OnClickListener{
 
