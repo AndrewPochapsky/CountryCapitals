@@ -43,6 +43,14 @@
             android:textSize="35sp"
             android:id="@+id/region_asia"
             android:textAlignment="textStart"/>
+        <Button
+            android:theme="@style/AppTheme.MainStartButton"
+            android:layout_width="125dp"
+            android:layout_height="100dp"
+            android:text="Back"
+            android:textSize="35sp"
+            android:id="@+id/choose_region_back"
+            android:textAlignment="textStart"/>
     </LinearLayout>
     <ProgressBar
         android:id="@+id/loading_indicator"

@@ -33,7 +33,7 @@ public class ChooseRegionActivity extends AppCompatActivity {
     * Next activity will be loaded once this is done
     * */
 
-    Button mEuropeButton, mAsiaButton;
+    Button mEuropeButton, mAsiaButton, mBackButton;
     ProgressBar mLoadingIndicator;
 
     @Override
@@ -41,12 +41,9 @@ public class ChooseRegionActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_region);
 
-        //TODO: Remove this when done testing(next two lines)
-        //SharedPreferences pref = getSharedPreferences("appData", Context.MODE_PRIVATE);
-        //pref.edit().clear().apply();
-
         mEuropeButton = findViewById(R.id.region_europe);
         mAsiaButton = findViewById(R.id.region_asia);
+        mBackButton = findViewById(R.id.choose_region_back);
         mLoadingIndicator = findViewById(R.id.loading_indicator);
 
         mEuropeButton.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +60,21 @@ public class ChooseRegionActivity extends AppCompatActivity {
             }
         });
 
+        mBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ChooseRegionActivity.this, MainMenuActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            }
+        });
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
     private void onRegionSelected(String region){
@@ -117,6 +129,7 @@ public class ChooseRegionActivity extends AppCompatActivity {
         Intent startQuizIntent = new Intent(ChooseRegionActivity.this, QuizStartActivity.class);
         startQuizIntent.putExtra("region", region);
         startActivity(startQuizIntent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     

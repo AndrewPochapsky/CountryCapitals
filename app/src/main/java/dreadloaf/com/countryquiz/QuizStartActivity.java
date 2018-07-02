@@ -11,7 +11,7 @@ import android.widget.TextView;
 public class QuizStartActivity extends AppCompatActivity {
 
     TextView mHeader;
-    Button mStartButton;
+    Button mStartButton, mBackButton;
     String mRegion;
 
     @Override
@@ -21,6 +21,7 @@ public class QuizStartActivity extends AppCompatActivity {
 
         mHeader = findViewById(R.id.quiz_start_header);
         mStartButton = findViewById(R.id.quiz_start_button);
+        mBackButton = findViewById(R.id.quiz_start_back);
 
         //Get the region chosen by user
         Intent previousActivityIntent = getIntent();
@@ -38,11 +39,19 @@ public class QuizStartActivity extends AppCompatActivity {
                 onQuizStart();
             }
         });
+        mBackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(QuizStartActivity.this, ChooseRegionActivity.class));
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            }
+        });
     }
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, ChooseRegionActivity.class));
+        startActivity(new Intent(QuizStartActivity.this, ChooseRegionActivity.class));
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
     //Set up all questions for quiz, put them in a queue, send queue to next activity
