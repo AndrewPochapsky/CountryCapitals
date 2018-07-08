@@ -278,7 +278,8 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
         if(mProgress < mNumQuestions){
             mProgress++;
             String text = mProgress + "/" + mNumQuestions;
-            mProgressTextView.setText(text);
+            //mProgressTextView.setText(text);
+            setTitle(text);
         }
     }
 }
