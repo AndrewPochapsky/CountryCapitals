@@ -8,7 +8,7 @@
     <color name="colorQuizText">#ffff</color>
     <color name="colorMainMenuTop">#498aec</color>
     <color name="colorMainMenuBody">#176be9</color>
-    <color name="colorMainMenuTitle">#ffffff</color>
-    <color name="colorMainMenuButton">#300c00ba</color>
+    <color name="colorMainMenuTitle">#107abc</color>
+    <color name="colorMainMenuButton">#6cbed5</color>
 
 </resources>
