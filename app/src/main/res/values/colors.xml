@@ -3,7 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorQuizPrimary">#6cbed5</color>
+    <color name="colorQuizButtonDefault">#6cbed5</color>
+    <color name="colorQuizInProgressBG">#daf3fa</color>
     <color name="colorQuizText">#ffff</color>
     <color name="colorMainMenuTop">#498aec</color>
     <color name="colorMainMenuBody">#176be9</color>

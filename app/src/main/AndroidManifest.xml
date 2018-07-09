@@ -17,7 +17,7 @@
         </activity>
         <activity android:name=".ChooseRegionActivity" android:theme="@style/Theme.AppCompat.NoActionBar" android:noHistory="true"/>
         <activity android:name=".QuizStartActivity" android:theme="@style/Theme.AppCompat.NoActionBar" android:noHistory="true"/>
-        <activity android:name=".QuizInProgressActivity" android:theme="@style/noAnimTheme" android:noHistory="true"/>
+        <activity android:name=".QuizInProgressActivity" android:theme="@style/Theme.AppCompat.NoActionBar" android:noHistory="true"/>
         <activity android:name=".QuizEndActivity" android:theme="@style/Theme.AppCompat.NoActionBar" android:noHistory="true"/>
 
     </application>

@@ -60,6 +60,7 @@ public class QuizStartActivity extends AppCompatActivity {
 
         intent.putExtra("region", mRegion);
         startActivity(intent);
+        overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
     }
 
 

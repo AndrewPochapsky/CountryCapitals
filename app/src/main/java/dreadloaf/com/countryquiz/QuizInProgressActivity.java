@@ -17,6 +17,8 @@ import android.text.Spannable;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.Button;
@@ -63,7 +65,6 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
             mPressedButton.getBackground().setColorFilter(mButtonDefaultColor, PorterDuff.Mode.MULTIPLY);
             updateProgressText();
             setupNextQuestion();
-            mAnimation.start();
             mRestPeriod = false;
         }
     };
@@ -86,7 +87,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
         mTimerProgressBar = findViewById(R.id.timer);
         mProgressTextView = findViewById(R.id.progress_text);
         mScoreTextView = findViewById(R.id.quiz_score_text);
-        mButtonDefaultColor = ContextCompat.getColor(this, R.color.colorQuizPrimary);
+        mButtonDefaultColor = ContextCompat.getColor(this, R.color.colorQuizButtonDefault);
 
         mButtons = new Button[mSecondRow.getChildCount() + mFirstRow.getChildCount()];
 
@@ -271,6 +272,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
             int start = prefix.length();
             int end = text.length() -1;
             s.setSpan(new ForegroundColorSpan(Color.RED), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
         }
     }
 
@@ -278,8 +280,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
         if(mProgress < mNumQuestions){
             mProgress++;
             String text = mProgress + "/" + mNumQuestions;
-            //mProgressTextView.setText(text);
-            setTitle(text);
+            mProgressTextView.setText(text);
         }
     }
 }

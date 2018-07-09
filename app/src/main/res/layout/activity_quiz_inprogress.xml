@@ -6,7 +6,9 @@
     android:baselineAligned="false"
     android:gravity="center_horizontal"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="dreadloaf.com.countryquiz.QuizInProgressActivity">
+    tools:context="dreadloaf.com.countryquiz.QuizInProgressActivity"
+    android:background="@color/colorQuizInProgressBG"
+    android:id="@+id/quiz_inprogress_main_view">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,7 +19,9 @@
         android:id="@+id/quiz_inprogress_header"
         android:lines="3"
         android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"/>
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:fontFamily="sans-serif-smallcaps"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -26,10 +30,10 @@
         android:id="@+id/first_button_row">
         <Button
             style="@style/quizButtonStyle"
-            android:theme="@style/AppTheme.QuizButton"/>
+            android:theme="@style/AppTheme.QuizButton" />
         <Button
             style="@style/quizButtonStyle"
-            android:theme="@style/AppTheme.QuizButton"/>
+            android:theme="@style/AppTheme.QuizButton" />
     </LinearLayout>
 
     <LinearLayout
@@ -58,7 +62,8 @@
             android:layout_centerHorizontal="true"
             android:text="@string/time_left"
             android:textColor="@android:color/black"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:fontFamily="sans-serif-smallcaps"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -67,9 +72,10 @@
             android:layout_centerInParent="true"
             android:textColor="@android:color/black"
             android:textSize="30sp"
-            android:id="@+id/quiz_score_text" />
+            android:id="@+id/quiz_score_text"
+            android:fontFamily="sans-serif-smallcaps"/>
 
-       <!-- <TextView
+       <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
@@ -79,7 +85,8 @@
             android:text="X/10"
             android:textColor="@android:color/black"
             android:textSize="20sp"
-            android:id="@+id/progress_text"/> -->
+            android:id="@+id/progress_text"
+           android:fontFamily="sans-serif-smallcaps"/>
 
         <ProgressBar
             android:id="@+id/timer"
