@@ -3,63 +3,89 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="dreadloaf.com.countryquiz.QuizEndActivity">
+    tools:context="dreadloaf.com.countryquiz.QuizEndActivity"
+    android:background="@drawable/main_menu_gradient">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="5dp"
+        android:text="@string/quiz_results_header"
+        android:textSize="80sp"
+        android:textColor="@color/colorMainMenuTitle"
+        android:textStyle="bold"
+        android:fontFamily="sans-serif-smallcaps" />
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:gravity="center">
-
+            android:gravity="center_vertical">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/quiz_end_score_header"
-                android:textColor="@android:color/black"
-                android:textSize="30sp" />
+                android:textColor="@android:color/white"
+                android:textSize="40sp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:layout_marginStart="5dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/placeholder"
-                android:textColor="@android:color/holo_blue_dark"
+                android:textColor="@android:color/white"
                 android:textSize="30sp"
-                android:id="@+id/quiz_end_score" />
+                android:id="@+id/quiz_end_score"
+                android:fontFamily="sans-serif-smallcaps"
+                android:layout_marginStart="5dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/quiz_end_highscore_header"
-                android:textColor="@android:color/black"
-                android:textSize="30sp"
-                android:layout_marginTop="40dp"/>
+                android:textColor="@android:color/white"
+                android:textSize="40sp"
+                android:layout_marginTop="40dp"
+                android:fontFamily="sans-serif-smallcaps"
+                android:layout_marginStart="5dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/placeholder"
-                android:textColor="@android:color/holo_green_dark"
+                android:textColor="@android:color/white"
                 android:textSize="30sp"
-                android:id="@+id/quiz_end_highscore"/>
+                android:id="@+id/quiz_end_highscore"
+                android:fontFamily="sans-serif-smallcaps"
+                android:layout_marginStart="5dp"/>
+
+
 
         </LinearLayout>
         <Button
-            android:layout_width="200dp"
-            android:layout_height="100dp"
+            android:theme="@style/AppTheme.MainStartButton"
+            android:layout_width="230dp"
+            android:layout_height="110dp"
             android:text="@string/quiz_return"
-            android:textSize="25sp"
+            android:textSize="30sp"
+            android:layout_marginStart="5dp"
+            android:layout_marginBottom="5dp"
+            android:textAlignment="textStart"
             android:id="@+id/return_button"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"/>
+            android:layout_alignParentBottom="true" />
+
 
     </RelativeLayout>
+
+
 
 </LinearLayout>

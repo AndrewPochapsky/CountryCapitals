@@ -8,4 +8,5 @@
     <string name="quiz_end_score_header"><u>Current Score</u></string>
     <string name="quiz_end_highscore_header"><u>Highscore</u></string>
     <string name="main_menu_header">Country \nQuiz</string>
+    <string name="quiz_results_header">Results</string>
 </resources>

@@ -197,7 +197,6 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
         return questions;
     }
 
-
     private void shuffleArray(Country[] array) {
         if(array == null){
             Log.e("SHUFFLE", "Specified array to shuffle is null");
@@ -254,6 +253,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
             intent.putExtra("region", mRegion);
             mFinished = true;
             startActivity(intent);
+            overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
         }
         else{
             mAnimation.start();
