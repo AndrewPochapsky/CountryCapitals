@@ -13,7 +13,8 @@ import android.widget.TextView;
 public class QuizEndActivity extends AppCompatActivity {
 
     TextView mScoreText, mHighscoreText;
-    Button mReturnButton;
+    Button mReturnButton, mPlayAgainButton;
+    String mRegion;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -25,17 +26,17 @@ public class QuizEndActivity extends AppCompatActivity {
         mScoreText = findViewById(R.id.quiz_end_score);
         mHighscoreText = findViewById(R.id.quiz_end_highscore);
         mReturnButton = findViewById(R.id.return_button);
+        mPlayAgainButton = findViewById(R.id.play_again_button);
 
         String score = "";
-        String region = "";
         Intent previousActivityIntent = getIntent();
         if(previousActivityIntent.hasExtra("score")){
             score = previousActivityIntent.getStringExtra("score");
         }
         if(previousActivityIntent.hasExtra("region")){
-            region = previousActivityIntent.getStringExtra("region");
+            mRegion = previousActivityIntent.getStringExtra("region");
         }
-        int highscore = determineHighscore(Integer.parseInt(score), region);
+        int highscore = determineHighscore(Integer.parseInt(score), mRegion);
 
         mScoreText.setText(score);
         mHighscoreText.setText(String.valueOf(highscore));
@@ -46,6 +47,16 @@ public class QuizEndActivity extends AppCompatActivity {
                 Intent intent = new Intent(QuizEndActivity.this, MainMenuActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+            }
+        });
+
+        mPlayAgainButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(QuizEndActivity.this, QuizInProgressActivity.class);
+                intent.putExtra("region", mRegion);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
             }
         });
     }
