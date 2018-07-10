@@ -30,9 +30,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
-//TODO: pause quiz when exiting the app
-//TODO: add city suffix to any capital which is just the name of the country(Only luxembourg)
-//TODO: change capital of Holy See to Vatican City(is rome currently)
+
 public class QuizInProgressActivity extends AppCompatActivity implements View.OnClickListener{
 
     String mRegion;
@@ -44,6 +42,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
     Question mCurrentQuestion;
     Button[] mButtons;
     Button mPressedButton;
+
     int mNumCorrect;
     int mScore;
     int mProgress;
@@ -59,6 +58,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
     final int mBaseScore = 100;
     final Handler timerHandler = new Handler();
 
+    //This is what gets executed after the "rest period" between questions
     Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {

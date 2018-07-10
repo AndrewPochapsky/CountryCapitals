@@ -48,7 +48,16 @@ public class Country {
         for(int i = 0; i < countryJson.length(); i++){
             try {
                 JSONObject obj = countryJson.getJSONObject(i);
-                countries[i] = new Country(obj.getString("name"), obj.getString("capital"), region);
+
+                String name = obj.getString("name");
+                String capital = obj.getString("capital");
+                //Fix few errors in the API
+                if(name.equals("Holy See")){
+                    capital = "Vatican City";
+                }else if(name.equals("Luxembourg")){
+                    capital = "Luxembourg City";
+                }
+                countries[i] = new Country(name, capital, region);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
