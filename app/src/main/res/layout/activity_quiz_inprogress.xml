@@ -15,40 +15,50 @@
         android:text="@string/placeholder"
         android:gravity="center_horizontal"
         android:textColor="@android:color/black"
-        android:textSize="40sp"
+        android:textSize="35sp"
         android:id="@+id/quiz_inprogress_header"
         android:lines="3"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="5dp"
         android:fontFamily="sans-serif-smallcaps"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:id="@+id/first_button_row">
-        <Button
-            style="@style/quizButtonStyle"
-            android:theme="@style/AppTheme.QuizButton" />
-        <Button
-            style="@style/quizButtonStyle"
-            android:theme="@style/AppTheme.QuizButton" />
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/first_button_row">
+            <Button
+                style="@style/quizButtonStyle"
+                android:theme="@style/AppTheme.QuizButton" />
+            <Button
+                style="@style/quizButtonStyle"
+                android:theme="@style/AppTheme.QuizButton" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="-4dp"
+            android:id="@+id/second_button_row">
+            <Button
+                style="@style/quizButtonStyle"
+                android:theme="@style/AppTheme.QuizButton"/>
+            <Button
+                style="@style/quizButtonStyle"
+                android:theme="@style/AppTheme.QuizButton"/>
+        </LinearLayout>
+
+
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="-4dp"
-        android:id="@+id/second_button_row">
-        <Button
-            style="@style/quizButtonStyle"
-            android:theme="@style/AppTheme.QuizButton"/>
-        <Button
-            style="@style/quizButtonStyle"
-            android:theme="@style/AppTheme.QuizButton"/>
-    </LinearLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

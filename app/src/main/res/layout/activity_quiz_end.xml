@@ -12,64 +12,60 @@
         style="@style/headerTextStyle"
         android:text="@string/quiz_results_header" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quiz_end_score_header"
+            android:textColor="@android:color/black"
+            android:textSize="40sp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:layout_marginStart="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/placeholder"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="37sp"
+            android:id="@+id/quiz_end_score"
+            android:fontFamily="sans-serif-smallcaps"
+            android:layout_marginStart="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quiz_end_highscore_header"
+            android:textColor="@android:color/black"
+            android:textSize="40sp"
+            android:layout_marginTop="40dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:layout_marginStart="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/placeholder"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="37sp"
+            android:id="@+id/quiz_end_highscore"
+            android:fontFamily="sans-serif-smallcaps"
+            android:layout_marginStart="5dp"/>
+    </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical">
+        android:layout_height="match_parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center_vertical"
-            android:layout_above="@id/quiz_results_buttons">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/quiz_end_score_header"
-                android:textColor="@android:color/black"
-                android:textSize="45sp"
-                android:fontFamily="sans-serif-smallcaps"
-                android:layout_marginStart="5dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/placeholder"
-                android:textColor="@android:color/holo_red_light"
-                android:textSize="40sp"
-                android:id="@+id/quiz_end_score"
-                android:fontFamily="sans-serif-smallcaps"
-                android:layout_marginStart="5dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/quiz_end_highscore_header"
-                android:textColor="@android:color/black"
-                android:textSize="45sp"
-                android:layout_marginTop="40dp"
-                android:fontFamily="sans-serif-smallcaps"
-                android:layout_marginStart="5dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/placeholder"
-                android:textColor="@android:color/holo_red_light"
-                android:textSize="40sp"
-                android:id="@+id/quiz_end_highscore"
-                android:fontFamily="sans-serif-smallcaps"
-                android:layout_marginStart="5dp"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_alignParentBottom="true"
-            android:id="@+id/quiz_results_buttons">
+            android:layout_alignParentBottom="true">
             <Button
                 android:theme="@style/AppTheme.MainStartButton"
                 android:layout_width="230dp"
@@ -92,10 +88,5 @@
                 android:id="@+id/return_button" />
         </LinearLayout>
 
-
-
     </RelativeLayout>
-
-
-
 </LinearLayout>
