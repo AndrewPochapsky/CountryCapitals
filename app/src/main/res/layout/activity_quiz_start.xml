@@ -6,17 +6,9 @@
     android:background="@color/colorQuizInProgressBG"
     tools:context="dreadloaf.com.countryquiz.QuizStartActivity">
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
+        style="@style/headerTextStyle"
         android:text="@string/placeholder"
-        android:textSize="65sp"
-        android:textColor="@color/colorMainMenuTitle"
-        android:textStyle="bold"
-        android:fontFamily="sans-serif-smallcaps"
-        android:lines="2"
-        android:id="@+id/quiz_start_header"/>
+        android:id="@+id/quiz_start_header" />
 
     <LinearLayout
         android:layout_width="match_parent"

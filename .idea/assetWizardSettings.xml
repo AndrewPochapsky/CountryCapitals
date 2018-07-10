@@ -23,7 +23,8 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="54" />
+                                                <entry key="scalingPercent" value="76" />
+                                                <entry key="trimmed" value="true" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -34,7 +35,7 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundImage" value="C:\Users\andre\Documents\Android Assets\Country Capitals\icon_background.png" />
-                                      <entry key="foregroundImage" value="C:\Users\andre\Documents\Android Assets\Country Capitals\icon_foreground.png" />
+                                      <entry key="foregroundImage" value="C:\Users\andre\Documents\Android Assets\Country Capitals\icon_foreground2.png" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -48,6 +49,11 @@
                 </map>
               </option>
             </PersistentState>
+          </value>
+        </entry>
+        <entry key="vectorWizard">
+          <value>
+            <PersistentState />
           </value>
         </entry>
       </map>

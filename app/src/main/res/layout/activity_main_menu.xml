@@ -8,22 +8,10 @@
     tools:context="dreadloaf.com.countryquiz.MainMenuActivity"
     android:background="@color/colorQuizInProgressBG">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="5dp"
-            android:text="@string/main_menu_header"
-            android:textSize="65sp"
-            android:textColor="@color/colorMainMenuTitle"
-            android:textStyle="bold"
-            android:fontFamily="sans-serif-smallcaps"
-            android:lines="2" />
-    </LinearLayout>
+    <TextView
+        style="@style/headerTextStyle"
+        android:text="@string/main_menu_header"
+        android:lines="2" />
 
     <LinearLayout
         android:layout_width="match_parent"

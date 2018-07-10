@@ -9,15 +9,8 @@
     android:background="@color/colorQuizInProgressBG">
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
+        style="@style/headerTextStyle"
         android:text="@string/main_activity_header"
-        android:textSize="65sp"
-        android:textColor="@color/colorMainMenuTitle"
-        android:textStyle="bold"
-        android:fontFamily="sans-serif-smallcaps"
         android:lines="2" />
 
     <LinearLayout

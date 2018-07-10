@@ -8,6 +8,6 @@
     <string name="quiz_restart">Play Again</string>
     <string name="quiz_end_score_header"><b>Current Score:</b></string>
     <string name="quiz_end_highscore_header"><b>Highscore:</b></string>
-    <string name="main_menu_header">Country \nQuiz</string>
+    <string name="main_menu_header">Country \nCapitals</string>
     <string name="quiz_results_header">Results</string>
 </resources>
