@@ -102,7 +102,6 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
             mRegion = previousActivityIntent.getStringExtra("region");
         }
         mQuestions = setupQuestions();
-        Log.d("QUIZ", "There are " + mQuestions.size() + " Questions");
         int index = 0;
         for(int i = 0; i < mFirstRow.getChildCount(); i++){
             Button button = (Button)mFirstRow.getChildAt(i);
@@ -199,7 +198,6 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
 
     private void shuffleArray(Country[] array) {
         if(array == null){
-            Log.e("SHUFFLE", "Specified array to shuffle is null");
             return;
         }
         int index;
@@ -231,7 +229,6 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
                     //start next question and mark this one is wrong
                     updateProgressText();
                     setupNextQuestion();
-                    Log.d("Animation", "Animation finished");
                 }
             }
 

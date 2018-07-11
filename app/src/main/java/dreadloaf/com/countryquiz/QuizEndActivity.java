@@ -21,8 +21,6 @@ public class QuizEndActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_end);
 
-        Log.d("ACTIVITY", "Loaded final activity");
-
         mScoreText = findViewById(R.id.quiz_end_score);
         mHighscoreText = findViewById(R.id.quiz_end_highscore);
         mReturnButton = findViewById(R.id.return_button);

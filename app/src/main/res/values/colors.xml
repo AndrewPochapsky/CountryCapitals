@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorQuizButtonDefault">#6cbed5</color>
+    <color name="colorHeaderBG">#9cc8d5</color>
     <color name="colorQuizInProgressBG">#daf3fa</color>
     <color name="colorQuizText">#ffff</color>
     <color name="colorMainMenuTop">#498aec</color>

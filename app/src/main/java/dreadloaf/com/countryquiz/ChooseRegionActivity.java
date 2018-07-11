@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -84,11 +85,9 @@ public class ChooseRegionActivity extends AppCompatActivity {
         SharedPreferences sharedPref = getSharedPreferences("appData", Context.MODE_PRIVATE);
 
         if(!sharedPref.contains(fileName)){
-            Log.d("JSON", "JSON not saved yest");
             getRequestForRegion(region);
         }
         else{
-            Log.d("JSON", "JSON already saved");
             loadQuizActivity(region);
         }
     }
@@ -103,14 +102,13 @@ public class ChooseRegionActivity extends AppCompatActivity {
             public void onResponse(JSONArray response) {
                 String fileName = "countries_" + region;
                 JsonUtil.saveJson(response.toString(), fileName, ChooseRegionActivity.this);
-                Log.d("JSON", "Saved Json");
                 loadQuizActivity(region);
             }
 
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e("Rest Response", error.toString());
+                Toast.makeText(ChooseRegionActivity.this, "Error with retrieving country information", Toast.LENGTH_SHORT).show();
             }
         }) {
             @Override

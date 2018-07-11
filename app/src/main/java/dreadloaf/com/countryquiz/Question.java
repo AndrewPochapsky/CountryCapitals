@@ -24,11 +24,6 @@ public class Question {
         return capitals;
     }
 
-    //Returns the capital part of the answer
-    public String getAnswerCapital(){
-        return answer;
-    }
-
     //Returns the country name part of the answer
     public String getAnswerCountry(){
         return capitalsMap.get(answer);

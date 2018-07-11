@@ -37,7 +37,6 @@ public class Country {
 
     public static Country[] getCountries(String region, Context context){
         if(region == null){
-            Log.e("getCountries", "entered region is null");
             return null;
         }
         String fileName = "countries_" + region;
@@ -51,6 +50,7 @@ public class Country {
 
                 String name = obj.getString("name");
                 String capital = obj.getString("capital");
+
                 //Fix few errors in the API
                 if(name.equals("Holy See")){
                     capital = "Vatican City";

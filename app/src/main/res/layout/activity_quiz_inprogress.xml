@@ -56,9 +56,11 @@
                 android:theme="@style/AppTheme.QuizButton"/>
         </LinearLayout>
 
-
     </LinearLayout>
 
+    <ImageView
+        style="@style/starIcon"
+        android:layout_marginTop="0dp"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -68,21 +70,21 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/timer"
-            android:layout_centerHorizontal="true"
-            android:text="@string/time_left"
-            android:textColor="@android:color/black"
-            android:textSize="12sp"
-            android:fontFamily="sans-serif-smallcaps"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:text="@string/placeholder"
             android:layout_centerInParent="true"
             android:textColor="@android:color/black"
             android:textSize="30sp"
             android:id="@+id/quiz_score_text"
+            android:fontFamily="sans-serif-smallcaps"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/timer"
+            android:layout_centerHorizontal="true"
+            android:text="@string/time_left"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
             android:fontFamily="sans-serif-smallcaps"/>
 
        <TextView

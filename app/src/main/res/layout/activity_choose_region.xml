@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
     tools:context="dreadloaf.com.countryquiz.ChooseRegionActivity"
     android:background="@color/colorQuizInProgressBG">
 
@@ -13,12 +14,14 @@
         android:text="@string/main_activity_header"
         android:lines="2" />
 
+    <ImageView
+        style="@style/starIcon"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center_vertical"
-        android:layout_marginStart="5dp">
+        android:gravity="center_vertical">
 
         <Button
             android:theme="@style/AppTheme.MainStartButton"
