@@ -17,11 +17,18 @@
     <ImageView
         style="@style/starIcon"/>
 
+    <ProgressBar
+        android:id="@+id/loading_indicator"
+        android:layout_height="42dp"
+        android:layout_width="42dp"
+        android:layout_gravity="center"
+        android:visibility="invisible" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center_vertical">
+        android:gravity="center">
 
         <Button
             android:theme="@style/AppTheme.MainStartButton"
@@ -29,29 +36,20 @@
             android:layout_height="100dp"
             android:text="Europe"
             android:textSize="35sp"
-            android:id="@+id/region_europe"
-            android:textAlignment="textStart"/>
+            android:id="@+id/region_europe" />
         <Button
             android:theme="@style/AppTheme.MainStartButton"
             android:layout_width="225dp"
             android:layout_height="100dp"
             android:text="Asia"
             android:textSize="35sp"
-            android:id="@+id/region_asia"
-            android:textAlignment="textStart"/>
+            android:id="@+id/region_asia" />
         <Button
             android:theme="@style/AppTheme.MainStartButton"
             android:layout_width="125dp"
             android:layout_height="100dp"
             android:text="Back"
             android:textSize="35sp"
-            android:id="@+id/choose_region_back"
-            android:textAlignment="textStart"/>
+            android:id="@+id/choose_region_back" />
     </LinearLayout>
-    <ProgressBar
-        android:id="@+id/loading_indicator"
-        android:layout_height="42dp"
-        android:layout_width="42dp"
-        android:layout_gravity="center"
-        android:visibility="invisible" />
 </LinearLayout>

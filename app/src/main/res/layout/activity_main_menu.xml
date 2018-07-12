@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center_vertical">
+        android:gravity="center">
 
         <Button
             android:theme="@style/AppTheme.MainStartButton"
@@ -28,16 +28,7 @@
             android:layout_height="100dp"
             android:text="Start"
             android:textSize="35sp"
-            android:id="@+id/main_menu_start"
-            android:textAlignment="textStart"/>
-        <Button
-            android:theme="@style/AppTheme.MainStartButton"
-            android:layout_width="225dp"
-            android:layout_height="100dp"
-            android:text="Options"
-            android:textSize="35sp"
-            android:id="@+id/main_menu_options"
-            android:textAlignment="textStart"/>
+            android:id="@+id/main_menu_start" />
     </LinearLayout>
 
 </LinearLayout>

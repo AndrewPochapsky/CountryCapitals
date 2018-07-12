@@ -51,11 +51,22 @@ public class Country {
                 String name = obj.getString("name");
                 String capital = obj.getString("capital");
 
+                //Do not have valid capitals
+                if(name.equals("Hong Kong") || name.equals("Macau")){
+                    continue;
+                }
+
                 //Fix few errors in the API
-                if(name.equals("Holy See")){
-                    capital = "Vatican City";
-                }else if(name.equals("Luxembourg")){
-                    capital = "Luxembourg City";
+                switch (name) {
+                    case "Holy See":
+                        capital = "Vatican City";
+                        break;
+                    case "Luxembourg":
+                        capital = "Luxembourg City";
+                        break;
+                    case "Mongolia":
+                        capital = "Ulaanbaatar";
+                        break;
                 }
                 countries[i] = new Country(name, capital, region);
             } catch (JSONException e) {

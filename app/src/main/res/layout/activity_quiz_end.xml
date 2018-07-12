@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:gravity="center_vertical">
+        android:gravity="center_horizontal">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -59,7 +59,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -74,7 +75,6 @@
                 android:textSize="30sp"
                 android:layout_marginStart="5dp"
                 android:layout_marginBottom="5dp"
-                android:textAlignment="textStart"
                 android:id="@+id/play_again_button" />
             <Button
                 android:theme="@style/AppTheme.MainStartButton"
@@ -84,7 +84,6 @@
                 android:textSize="30sp"
                 android:layout_marginStart="5dp"
                 android:layout_marginBottom="5dp"
-                android:textAlignment="textStart"
                 android:id="@+id/return_button" />
         </LinearLayout>
 

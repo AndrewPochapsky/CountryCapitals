@@ -8,7 +8,7 @@ import android.widget.Button;
 
 public class MainMenuActivity extends AppCompatActivity {
 
-    Button mStartButton, mOptionsButton;
+    Button mStartButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -16,7 +16,6 @@ public class MainMenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_menu);
 
         mStartButton = findViewById(R.id.main_menu_start);
-        mOptionsButton = findViewById(R.id.main_menu_options);
 
         mStartButton.setOnClickListener(new View.OnClickListener() {
             @Override

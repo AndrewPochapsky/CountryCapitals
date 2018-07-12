@@ -19,15 +19,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:gravity="center_vertical">
+        android:gravity="center">
         <Button
             android:theme="@style/AppTheme.MainStartButton"
             android:layout_width="225dp"
             android:layout_height="100dp"
             android:text="Start Quiz"
             android:textSize="35sp"
-            android:id="@+id/quiz_start_button"
-            android:textAlignment="textStart"/>
+            android:id="@+id/quiz_start_button" />
         <Button
             android:theme="@style/AppTheme.MainStartButton"
             android:layout_width="125dp"

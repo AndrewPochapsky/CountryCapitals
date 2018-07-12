@@ -62,6 +62,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
     Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
+            //mAnimation.start();
             mPressedButton.getBackground().setColorFilter(mButtonDefaultColor, PorterDuff.Mode.MULTIPLY);
             updateProgressText();
             setupNextQuestion();
@@ -215,7 +216,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
     private void setupAnimation(){
         //Is multiplied by 100 to ensure for a smooth animation, going up by 1 makes it look choppy
         mTimerProgressBar.setMax(mMaxTimerValue*100);
-        mAnimation = ObjectAnimator.ofInt(mTimerProgressBar, "progress", mTimerProgressBar.getProgress(), mMaxTimerValue * 100);
+        mAnimation = ObjectAnimator.ofInt(mTimerProgressBar, "progress", 0, mMaxTimerValue * 100);
         mAnimation.setInterpolator(new LinearInterpolator());
         mAnimation.setDuration(mMaxQuestionDuration);
         mAnimation.addListener(new Animator.AnimatorListener() {
@@ -225,6 +226,8 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
             @Override
             public void onAnimationEnd(Animator animator) {
                 if(!mFinished){
+                    //On android 7 the animation reset when finishes so setupAnimation() has to be called again
+                    setupAnimation();
                     //if this happens, then the user has not clicked any option in time
                     //start next question and mark this one is wrong
                     updateProgressText();
@@ -254,6 +257,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
         }
         else{
             mAnimation.start();
+            Log.d("ANIMATION", "Animation start");
             mCurrentQuestion = nextQuestion;
             String[] capitals = mCurrentQuestion.getCapitals();
             for(int i = 0; i < capitals.length; i++){
