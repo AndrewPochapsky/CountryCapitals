@@ -35,14 +35,21 @@ public class Country {
         return region;
     }
 
-    public static Country[] getCountries(String region, Context context){
-        if(region == null){
+    public static Country[] getCountries(String overarchingRegion, Context context){
+        if(overarchingRegion == null){
             return null;
         }
-        String fileName = "countries_" + region;
+        String fileName = "countries_" + overarchingRegion;
         JSONArray countryJson = JsonUtil.getSavedJson(fileName, context);
+        int index = 0;
+        int length = countryJson.length();
+        //This is because I don't use "Hong Kong" and "Macau" from the
+        if(overarchingRegion.equals("asia")){
+            Log.d("Country", "Region is Asia");
+            length -=2;
 
-        Country[] countries = new Country[countryJson.length()];
+        }
+        Country[] countries = new Country[length];
 
         for(int i = 0; i < countryJson.length(); i++){
             try {
@@ -68,7 +75,9 @@ public class Country {
                         capital = "Ulaanbaatar";
                         break;
                 }
-                countries[i] = new Country(name, capital, region);
+                countries[index] = new Country(name, capital, overarchingRegion);
+                //Log.d("Country", "Adding country with name = " + name + " and capital = " + capital);
+                index++;
             } catch (JSONException e) {
                 e.printStackTrace();
             }
