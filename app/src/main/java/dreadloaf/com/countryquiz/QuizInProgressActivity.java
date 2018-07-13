@@ -32,7 +32,7 @@ import java.util.Queue;
 import java.util.Random;
 
 public class QuizInProgressActivity extends AppCompatActivity implements View.OnClickListener{
-    //TODO: flash the right answer green if user selects it wrong
+    //TODO: pause anim on exit as the app keeps running
     String mRegion;
     Queue<Question> mQuestions;
     TextView mQuestionTextView, mProgressTextView, mScoreTextView;
@@ -200,6 +200,13 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        mFinished = true;
+        finish();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
         mFinished = true;
         finish();
     }
