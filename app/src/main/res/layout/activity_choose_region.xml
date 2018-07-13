@@ -29,21 +29,31 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center">
+        <GridLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:rowCount="2"
+            android:columnCount="2"
+            android:layout_gravity="center"
+            android:id="@+id/choose_region_buttons">
+            <Button
+                style="@style/regionSelectButton"
+                android:text="Europe"
+                android:id="@+id/region_europe" />
+            <Button
+                style="@style/regionSelectButton"
+                android:text="Asia"
+                android:id="@+id/region_asia" />
+            <Button
+                style="@style/regionSelectButton"
+                android:text="Americas"
+                android:id="@+id/region_americas" />
+            <Button
+                style="@style/regionSelectButton"
+                android:text="Africa"
+                android:id="@+id/region_africa" />
 
-        <Button
-            android:theme="@style/AppTheme.MainStartButton"
-            android:layout_width="225dp"
-            android:layout_height="100dp"
-            android:text="Europe"
-            android:textSize="35sp"
-            android:id="@+id/region_europe" />
-        <Button
-            android:theme="@style/AppTheme.MainStartButton"
-            android:layout_width="225dp"
-            android:layout_height="100dp"
-            android:text="Asia"
-            android:textSize="35sp"
-            android:id="@+id/region_asia" />
+        </GridLayout>
         <Button
             android:theme="@style/AppTheme.MainStartButton"
             android:layout_width="125dp"
@@ -52,4 +62,5 @@
             android:textSize="35sp"
             android:id="@+id/choose_region_back" />
     </LinearLayout>
+
 </LinearLayout>

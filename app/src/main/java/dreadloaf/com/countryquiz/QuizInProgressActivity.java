@@ -62,7 +62,6 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
     Runnable timerRunnable = new Runnable() {
         @Override
         public void run() {
-            //mAnimation.start();
             mPressedButton.getBackground().setColorFilter(mButtonDefaultColor, PorterDuff.Mode.MULTIPLY);
             updateProgressText();
             setupNextQuestion();
@@ -257,7 +256,6 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
         }
         else{
             mAnimation.start();
-            Log.d("ANIMATION", "Animation start");
             mCurrentQuestion = nextQuestion;
             String[] capitals = mCurrentQuestion.getCapitals();
             for(int i = 0; i < capitals.length; i++){

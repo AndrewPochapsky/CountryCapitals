@@ -43,11 +43,13 @@ public class Country {
         JSONArray countryJson = JsonUtil.getSavedJson(fileName, context);
         int index = 0;
         int length = countryJson.length();
-        //This is because I don't use "Hong Kong" and "Macau" from the
+        //This is because I don't use "Hong Kong" and "Macau"
         if(overarchingRegion.equals("asia")){
-            Log.d("Country", "Region is Asia");
             length -=2;
-
+        }
+        //Don't use "United States Minor Outlying Islands"
+        if(overarchingRegion.equals("americas")){
+            length--;
         }
         Country[] countries = new Country[length];
 
@@ -59,7 +61,7 @@ public class Country {
                 String capital = obj.getString("capital");
 
                 //Do not have valid capitals
-                if(name.equals("Hong Kong") || name.equals("Macau")){
+                if(name.equals("Hong Kong") || name.equals("Macau") || name.equals("United States Minor Outlying Islands")){
                     continue;
                 }
 

@@ -55,4 +55,11 @@
         <item name = "android:layout_marginTop">5dp</item>
     </style>
 
+    <style name="regionSelectButton">
+        <item name="android:layout_width">180dp</item>
+        <item name="android:layout_height">100dp</item>
+        <item name="android:theme">@style/AppTheme.MainStartButton</item>
+        <item name="android:textSize">30sp</item>
+    </style>
+
 </resources>

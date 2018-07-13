@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -26,7 +27,7 @@ import java.util.Map;
 
 import dreadloaf.com.countryquiz.util.JsonUtil;
 
-public class ChooseRegionActivity extends AppCompatActivity {
+public class ChooseRegionActivity extends AppCompatActivity implements View.OnClickListener{
     //TODO: Add a splashscreen to show before this activity is loaded
     /*
     * User will press button specifying the region
@@ -34,32 +35,18 @@ public class ChooseRegionActivity extends AppCompatActivity {
     * Next activity will be loaded once this is done
     * */
 
-    Button mEuropeButton, mAsiaButton, mBackButton;
+    Button mBackButton;
     ProgressBar mLoadingIndicator;
+    GridLayout mRegionButtons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_region);
 
-        mEuropeButton = findViewById(R.id.region_europe);
-        mAsiaButton = findViewById(R.id.region_asia);
         mBackButton = findViewById(R.id.choose_region_back);
+        mRegionButtons = findViewById(R.id.choose_region_buttons);
         mLoadingIndicator = findViewById(R.id.loading_indicator);
-
-        mEuropeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onRegionSelected(mEuropeButton.getText().toString().toLowerCase());
-            }
-        });
-
-        mAsiaButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onRegionSelected(mAsiaButton.getText().toString().toLowerCase());
-            }
-        });
 
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +57,10 @@ public class ChooseRegionActivity extends AppCompatActivity {
             }
         });
 
+        for(int i = 0; i < mRegionButtons.getChildCount(); i++){
+            Button button = (Button)mRegionButtons.getChildAt(i);
+            button.setOnClickListener(this);
+        }
     }
 
     @Override
@@ -130,5 +121,10 @@ public class ChooseRegionActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
-    
+
+    @Override
+    public void onClick(View view) {
+        Button button = (Button)view;
+        onRegionSelected(button.getText().toString().toLowerCase());
+    }
 }
