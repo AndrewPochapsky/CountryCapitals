@@ -32,7 +32,7 @@ import java.util.Queue;
 import java.util.Random;
 
 public class QuizInProgressActivity extends AppCompatActivity implements View.OnClickListener{
-
+    //TODO: flash the right answer green if user selects it wrong
     String mRegion;
     Queue<Question> mQuestions;
     TextView mQuestionTextView, mProgressTextView, mScoreTextView;
@@ -48,6 +48,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
     int mProgress;
     boolean mFinished = false;
     boolean mRestPeriod = false;
+    boolean mIncorrectAnswer = false;
     int mButtonDefaultColor;
 
     final int mMaxTimerValue = 100;
@@ -55,6 +56,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
     final int mNumCapitals = 4;
     final int mMaxQuestionDuration = 10000;
     final int mEndAnimationDuration = 500;
+    final int mRightAnswerDisplayDuration = 250;
     final int mBaseScore = 100;
     final Handler timerHandler = new Handler();
 
@@ -63,6 +65,16 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
         @Override
         public void run() {
             mPressedButton.getBackground().setColorFilter(mButtonDefaultColor, PorterDuff.Mode.MULTIPLY);
+            updateProgressText();
+            setupNextQuestion();
+            mRestPeriod = false;
+            mIncorrectAnswer = false;
+        }
+    };
+    
+    Runnable outOfTimeRunnable = new Runnable() {
+        @Override
+        public void run() {
             updateProgressText();
             setupNextQuestion();
             mRestPeriod = false;
@@ -116,7 +128,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
             button.setOnClickListener(this);
             index++;
         }
-        setupAnimation();
+        setupTimerAnimation();
         setupNextQuestion();
         updateProgressText();
         mScoreTextView.setText(String.valueOf(mScore));
@@ -128,7 +140,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
         //Prevents the user from clicking an additional answer to a question
         if(!mRestPeriod){
             int colorTo;
-            int colorFrom = mButtonDefaultColor;
+            final int colorFrom = mButtonDefaultColor;
             mPressedButton = (Button)view;
             //Answer is right
             if(mCurrentQuestion.isCorrectAnswer(mPressedButton.getText().toString())){
@@ -138,27 +150,51 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
                 calculateScore(mTimerProgressBar.getProgress());
                 mScoreTextView.setText(String.valueOf(mScore));
             }
+            //answer is wrong
             else{
                 colorTo = Color.RED;
+                mIncorrectAnswer = true;
             }
-
-            ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
-            colorAnimation.setDuration(mEndAnimationDuration);
-            colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animator) {
-                    mPressedButton.getBackground().setColorFilter((int) animator.getAnimatedValue(), PorterDuff.Mode.MULTIPLY);
-                }
-            });
-
-            colorAnimation.setInterpolator(new ReverseInterpolator());
+            //mDelay = mEndAnimationDuration;
+            ValueAnimator clickedButtonAnim = colorAnimation(mPressedButton, colorFrom, colorTo, mEndAnimationDuration, 0);
             mRestPeriod = true;
-            colorAnimation.start();
+            clickedButtonAnim.start();
+            clickedButtonAnim.addListener(new Animator.AnimatorListener() {
+                @Override
+                public void onAnimationStart(Animator animator) { }
 
+                @Override
+                public void onAnimationEnd(Animator animator) {
+                    if(mIncorrectAnswer){
+                        Button rightAnswerButton = findRightAnswerButton();
+                        int delay = mRightAnswerDisplayDuration * 2;
+                        colorAnimation(rightAnswerButton, mButtonDefaultColor, Color.GREEN, mRightAnswerDisplayDuration, 1).start();
+                        timerHandler.postDelayed(timerRunnable, delay);
+                    }
+                    else{
+                        timerHandler.postDelayed(timerRunnable, 0);
+                    }
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animator) { }
+
+                @Override
+                public void onAnimationRepeat(Animator animator) { }
+            });
             //Wait
             mAnimation.pause();
-            timerHandler.postDelayed(timerRunnable, mEndAnimationDuration);
+
         }
+    }
+
+    private Button findRightAnswerButton() {
+        for(Button button : mButtons){
+            if(mCurrentQuestion.isCorrectAnswer(button.getText().toString())){
+                return button;
+            }
+        }
+        return null;
     }
 
     @Override
@@ -166,6 +202,22 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
         super.onBackPressed();
         mFinished = true;
         finish();
+    }
+
+    private ValueAnimator colorAnimation(View view, int colorFrom, int colorTo, int duration, int repeatCount){
+        ValueAnimator animation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+        animation.setDuration(duration);
+        animation.setRepeatCount(repeatCount);
+        animation.setInterpolator(new ReverseInterpolator());
+        final View _view = view;
+        animation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                _view.getBackground().setColorFilter((int) valueAnimator.getAnimatedValue(), PorterDuff.Mode.MULTIPLY);
+            }
+        });
+       return animation;
+
     }
 
     private void calculateScore(int timePassed) {
@@ -212,7 +264,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
         }
     }
 
-    private void setupAnimation(){
+    private void setupTimerAnimation(){
         //Is multiplied by 100 to ensure for a smooth animation, going up by 1 makes it look choppy
         mTimerProgressBar.setMax(mMaxTimerValue*100);
         mAnimation = ObjectAnimator.ofInt(mTimerProgressBar, "progress", 0, mMaxTimerValue * 100);
@@ -225,12 +277,14 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
             @Override
             public void onAnimationEnd(Animator animator) {
                 if(!mFinished){
-                    //On android 7 the animation reset when finishes so setupAnimation() has to be called again
-                    setupAnimation();
+                    //On android 7 the animation reset when finishes so setupTimerAnimation() has to be called again
+                    setupTimerAnimation();
                     //if this happens, then the user has not clicked any option in time
                     //start next question and mark this one is wrong
-                    updateProgressText();
-                    setupNextQuestion();
+                    mRestPeriod = true;
+                    colorAnimation(findRightAnswerButton(), mButtonDefaultColor, Color.GREEN, mRightAnswerDisplayDuration, 1).start();
+                    timerHandler.postDelayed(outOfTimeRunnable, mRightAnswerDisplayDuration * 2);
+
                 }
             }
 
