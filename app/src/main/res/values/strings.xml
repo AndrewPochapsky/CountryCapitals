@@ -1,3 +1,13 @@
 <resources>
-    <string name="app_name">CountryQuiz</string>
+    <string name="app_name">Country Capitals</string>
+    <string name="main_activity_header">Choose \nRegion</string>
+    <string name="placeholder">Placeholder Text</string>
+    <string name="start_quiz_button">Start Quiz</string>
+    <string name="time_left">Time Left</string>
+    <string name="quiz_return">Return to Main</string>
+    <string name="quiz_restart">Play Again</string>
+    <string name="quiz_end_score_header"><b>Current Score:</b></string>
+    <string name="quiz_end_highscore_header"><b>Highscore:</b></string>
+    <string name="main_menu_header">Country \nCapitals</string>
+    <string name="quiz_results_header">Results</string>
 </resources>

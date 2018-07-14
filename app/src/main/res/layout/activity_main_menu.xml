@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="dreadloaf.com.countryquiz.MainMenuActivity"
+    android:background="@color/colorQuizInProgressBG">
+
+    <TextView
+        style="@style/headerTextStyle"
+        android:text="@string/main_menu_header"
+        android:lines="2" />
+
+    <ImageView
+        style="@style/starIcon" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <Button
+            android:theme="@style/AppTheme.MainStartButton"
+            android:layout_width="225dp"
+            android:layout_height="100dp"
+            android:text="Start"
+            android:textSize="35sp"
+            android:id="@+id/main_menu_start" />
+    </LinearLayout>
+
+</LinearLayout>

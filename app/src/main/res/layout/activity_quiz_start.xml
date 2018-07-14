@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@color/colorQuizInProgressBG"
+    tools:context="dreadloaf.com.countryquiz.QuizStartActivity">
+    <TextView
+        style="@style/headerTextStyle"
+        android:text="@string/placeholder"
+        android:id="@+id/quiz_start_header" />
+
+    <ImageView
+        style="@style/starIcon"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+        <Button
+            android:theme="@style/AppTheme.MainStartButton"
+            android:layout_width="225dp"
+            android:layout_height="100dp"
+            android:text="Start Quiz"
+            android:textSize="35sp"
+            android:id="@+id/quiz_start_button" />
+        <Button
+            android:theme="@style/AppTheme.MainStartButton"
+            android:layout_width="125dp"
+            android:layout_height="100dp"
+            android:text="Back"
+            android:textSize="35sp"
+            android:id="@+id/quiz_start_back"
+            android:textAlignment="textStart"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

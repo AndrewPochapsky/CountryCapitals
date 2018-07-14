@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="dreadloaf.com.countryquiz.QuizEndActivity"
+    android:background="@color/colorQuizInProgressBG">
+
+    <TextView
+        style="@style/headerTextStyle"
+        android:text="@string/quiz_results_header" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quiz_end_score_header"
+            android:textColor="@color/colorQuizButtonDefault"
+            android:textSize="40sp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:layout_marginStart="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/placeholder"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="37sp"
+            android:id="@+id/quiz_end_score"
+            android:fontFamily="sans-serif-smallcaps"
+            android:layout_marginStart="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/quiz_end_highscore_header"
+            android:textColor="@color/colorQuizButtonDefault"
+            android:textSize="40sp"
+            android:layout_marginTop="40dp"
+            android:fontFamily="sans-serif-smallcaps"
+            android:layout_marginStart="5dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/placeholder"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="37sp"
+            android:id="@+id/quiz_end_highscore"
+            android:fontFamily="sans-serif-smallcaps"
+            android:layout_marginStart="5dp"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center_horizontal">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true">
+            <Button
+                android:theme="@style/AppTheme.MainStartButton"
+                android:layout_width="230dp"
+                android:layout_height="110dp"
+                android:text="@string/quiz_restart"
+                android:textSize="30sp"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="5dp"
+                android:id="@+id/play_again_button" />
+            <Button
+                android:theme="@style/AppTheme.MainStartButton"
+                android:layout_width="230dp"
+                android:layout_height="110dp"
+                android:text="@string/quiz_return"
+                android:textSize="30sp"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="5dp"
+                android:id="@+id/return_button" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</LinearLayout>

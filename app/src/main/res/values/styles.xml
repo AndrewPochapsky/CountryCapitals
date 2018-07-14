@@ -8,4 +8,58 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="noAnimTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
+    <style name="AppTheme.QuizButton" parent = "Widget.AppCompat.Button.Colored">
+        <item name="android:colorButtonNormal">@color/colorQuizButtonDefault</item>
+        <item name="android:textColor">@color/colorQuizText</item>
+    </style>
+
+    <style name="AppTheme.MainStartButton" parent = "Widget.AppCompat.Button.Colored">
+        <item name="android:colorButtonNormal">@color/colorMainMenuButton</item>
+        <item name="android:textColor">@color/colorQuizText</item>
+    </style>
+
+
+    <style name="quizButtonStyle">
+        <item name ="android:textSize">22sp</item>
+        <item name="android:layout_gravity">start</item>
+        <item name="android:layout_width">170dp</item>
+        <item name="android:layout_height">140dp</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:lines">2</item>
+        <item name="android:fontFamily">sans-serif-smallcaps</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="headerTextStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:layout_marginEnd">5dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:textSize">65sp</item>
+        <item name="android:textColor">@color/colorQuizText</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-smallcaps</item>
+        <item name="android:background">@color/colorHeaderBG</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="starIcon">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:src">@drawable/icon_foreground2</item>
+        <item name = "android:layout_marginTop">5dp</item>
+    </style>
+
+    <style name="regionSelectButton">
+        <item name="android:layout_width">180dp</item>
+        <item name="android:layout_height">100dp</item>
+        <item name="android:theme">@style/AppTheme.MainStartButton</item>
+        <item name="android:textSize">30sp</item>
+    </style>
+
 </resources>
