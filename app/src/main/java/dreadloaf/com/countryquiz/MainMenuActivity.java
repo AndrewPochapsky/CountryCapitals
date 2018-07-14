@@ -6,6 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import dreadloaf.com.countryquiz.util.AudioUtil;
+
 public class MainMenuActivity extends AppCompatActivity {
 
     Button mStartButton;
@@ -25,6 +27,8 @@ public class MainMenuActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
         });
+
+        AudioUtil.playMusic(this, AudioUtil.menuMusic);
     }
 
 

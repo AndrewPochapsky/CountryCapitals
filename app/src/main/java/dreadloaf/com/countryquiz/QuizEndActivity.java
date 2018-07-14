@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import dreadloaf.com.countryquiz.util.AudioUtil;
+
 public class QuizEndActivity extends AppCompatActivity {
 
     TextView mScoreText, mHighscoreText;
@@ -57,6 +59,8 @@ public class QuizEndActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
             }
         });
+
+        AudioUtil.playMusic(this, AudioUtil.menuMusic);
     }
 
     private int determineHighscore(int score, String region){

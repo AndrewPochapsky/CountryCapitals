@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -26,10 +28,13 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
+
+import dreadloaf.com.countryquiz.util.AudioUtil;
 
 public class QuizInProgressActivity extends AppCompatActivity implements View.OnClickListener{
     //TODO: pause anim on exit as the app keeps running
@@ -133,6 +138,8 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
         updateProgressText();
         mScoreTextView.setText(String.valueOf(mScore));
         mAnimation.start();
+        AudioUtil.stopMusic();
+        AudioUtil.playMusic(this, AudioUtil.quizMusic);
     }
 
     @Override
@@ -144,6 +151,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
             mPressedButton = (Button)view;
             //Answer is right
             if(mCurrentQuestion.isCorrectAnswer(mPressedButton.getText().toString())){
+                AudioUtil.playSound(this, R.raw.correct_sound);
                 mNumCorrect++;
                 colorTo = Color.GREEN;
                 //update score
@@ -152,10 +160,10 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
             }
             //answer is wrong
             else{
+                AudioUtil.playSound(this, R.raw.incorrect_sound);
                 colorTo = Color.RED;
                 mIncorrectAnswer = true;
             }
-            //mDelay = mEndAnimationDuration;
             ValueAnimator clickedButtonAnim = colorAnimation(mPressedButton, colorFrom, colorTo, mEndAnimationDuration, 0);
             mRestPeriod = true;
             clickedButtonAnim.start();
@@ -201,6 +209,8 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
     public void onBackPressed() {
         super.onBackPressed();
         mFinished = true;
+        AudioUtil.stopMusic();
+        AudioUtil.playMusic(this, AudioUtil.menuMusic);
         finish();
     }
 
@@ -210,6 +220,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
         mFinished = true;
         finish();
     }
+
 
     private ValueAnimator colorAnimation(View view, int colorFrom, int colorTo, int duration, int repeatCount){
         ValueAnimator animation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
@@ -312,6 +323,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
             intent.putExtra("score", String.valueOf(mScore));
             intent.putExtra("region", mRegion);
             mFinished = true;
+            AudioUtil.stopMusic();
             startActivity(intent);
             overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
         }

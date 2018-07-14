@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import dreadloaf.com.countryquiz.util.AudioUtil;
+
 public class QuizStartActivity extends AppCompatActivity {
 
     TextView mHeader;
@@ -57,7 +59,7 @@ public class QuizStartActivity extends AppCompatActivity {
     //Set up all questions for quiz, put them in a queue, send queue to next activity
     private void onQuizStart(){
         Intent intent = new Intent(QuizStartActivity.this, QuizInProgressActivity.class);
-
+        AudioUtil.stopMusic();
         intent.putExtra("region", mRegion);
         startActivity(intent);
         overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
