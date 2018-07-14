@@ -37,7 +37,6 @@ import java.util.Random;
 import dreadloaf.com.countryquiz.util.AudioUtil;
 
 public class QuizInProgressActivity extends AppCompatActivity implements View.OnClickListener{
-    //TODO: pause anim on exit as the app keeps running
     String mRegion;
     Queue<Question> mQuestions;
     TextView mQuestionTextView, mProgressTextView, mScoreTextView;
@@ -217,10 +216,12 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
     @Override
     protected void onPause() {
         super.onPause();
+        AudioUtil.stopMusic();
+        AudioUtil.playMusic(this, AudioUtil.menuMusic);
+        AudioUtil.pauseMusic();
         mFinished = true;
         finish();
     }
-
 
     private ValueAnimator colorAnimation(View view, int colorFrom, int colorTo, int duration, int repeatCount){
         ValueAnimator animation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
@@ -241,7 +242,7 @@ public class QuizInProgressActivity extends AppCompatActivity implements View.On
     private void calculateScore(int timePassed) {
         timePassed /= 100;
         //10 is subtracted to make the score more attuned to the progress
-        mScore += (mBaseScore - (timePassed - 10));
+        mScore += (mBaseScore - (timePassed));
     }
 
     private Queue<Question> setupQuestions(){

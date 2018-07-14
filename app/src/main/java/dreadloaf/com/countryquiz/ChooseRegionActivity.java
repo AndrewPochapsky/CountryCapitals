@@ -25,6 +25,7 @@ import org.json.JSONArray;
 import java.util.HashMap;
 import java.util.Map;
 
+import dreadloaf.com.countryquiz.util.AudioUtil;
 import dreadloaf.com.countryquiz.util.JsonUtil;
 
 public class ChooseRegionActivity extends AppCompatActivity implements View.OnClickListener{
@@ -38,6 +39,10 @@ public class ChooseRegionActivity extends AppCompatActivity implements View.OnCl
     Button mBackButton;
     ProgressBar mLoadingIndicator;
     GridLayout mRegionButtons;
+    //This boolean is used to determine when the music should be paused
+    //if the value is true, then the user has pressed a button and therefore the music should continue
+    //if the value is false, then the user has exited another way and music should pause
+    boolean mPressedButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,7 @@ public class ChooseRegionActivity extends AppCompatActivity implements View.OnCl
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mPressedButton = true;
                 Intent intent = new Intent(ChooseRegionActivity.this, MainMenuActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
@@ -66,7 +72,21 @@ public class ChooseRegionActivity extends AppCompatActivity implements View.OnCl
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        mPressedButton = true;
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AudioUtil.resumeMusic();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(!mPressedButton)
+            AudioUtil.pauseMusic();
     }
 
     private void onRegionSelected(String region){
@@ -124,6 +144,7 @@ public class ChooseRegionActivity extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View view) {
+        mPressedButton = true;
         Button button = (Button)view;
         onRegionSelected(button.getText().toString().toLowerCase());
     }

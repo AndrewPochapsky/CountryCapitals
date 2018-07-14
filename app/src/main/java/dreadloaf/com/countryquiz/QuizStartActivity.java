@@ -15,6 +15,10 @@ public class QuizStartActivity extends AppCompatActivity {
     TextView mHeader;
     Button mStartButton, mBackButton;
     String mRegion;
+    //This boolean is used to determine when the music should be paused
+    //if the value is true, then the user has pressed a button and therefore the music should continue
+    //if the value is false, then the user has exited another way and music should pause
+    boolean mPressedButton = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,6 +48,7 @@ public class QuizStartActivity extends AppCompatActivity {
         mBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mPressedButton = true;
                 startActivity(new Intent(QuizStartActivity.this, ChooseRegionActivity.class));
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
             }
@@ -52,20 +57,34 @@ public class QuizStartActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        mPressedButton = true;
         startActivity(new Intent(QuizStartActivity.this, ChooseRegionActivity.class));
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AudioUtil.resumeMusic();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(!mPressedButton)
+            AudioUtil.pauseMusic();
+    }
+
     //Set up all questions for quiz, put them in a queue, send queue to next activity
     private void onQuizStart(){
+        mPressedButton = true;
         Intent intent = new Intent(QuizStartActivity.this, QuizInProgressActivity.class);
         AudioUtil.stopMusic();
         intent.putExtra("region", mRegion);
         startActivity(intent);
         overridePendingTransition(R.anim.fade_out, R.anim.fade_in);
     }
-
-
 }
 
 

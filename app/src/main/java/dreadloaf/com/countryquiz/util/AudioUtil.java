@@ -2,8 +2,6 @@ package dreadloaf.com.countryquiz.util;
 
 import android.content.Context;
 import android.media.MediaPlayer;
-import android.media.SoundPool;
-import android.util.Log;
 
 import dreadloaf.com.countryquiz.R;
 
@@ -31,6 +29,18 @@ public class AudioUtil {
             mediaPlayer.stop();
             mediaPlayer.release();
             mediaPlayer = null;
+        }
+    }
+
+    public static void pauseMusic(){
+        if(mediaPlayer != null){
+            mediaPlayer.pause();
+        }
+    }
+
+    public static void resumeMusic(){
+        if(mediaPlayer != null){
+            mediaPlayer.start();
         }
     }
 

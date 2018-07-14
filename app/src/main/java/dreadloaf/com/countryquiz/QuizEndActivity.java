@@ -17,6 +17,10 @@ public class QuizEndActivity extends AppCompatActivity {
     TextView mScoreText, mHighscoreText;
     Button mReturnButton, mPlayAgainButton;
     String mRegion;
+    //This boolean is used to determine when the music should be paused
+    //if the value is true, then the user has pressed a button and therefore the music should continue
+    //if the value is false, then the user has exited another way and music should pause
+    boolean mPressedButton = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,6 +48,7 @@ public class QuizEndActivity extends AppCompatActivity {
         mReturnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mPressedButton = true;
                 Intent intent = new Intent(QuizEndActivity.this, MainMenuActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -53,6 +58,7 @@ public class QuizEndActivity extends AppCompatActivity {
         mPlayAgainButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mPressedButton = true;
                 Intent intent = new Intent(QuizEndActivity.this, QuizInProgressActivity.class);
                 intent.putExtra("region", mRegion);
                 startActivity(intent);
@@ -61,6 +67,19 @@ public class QuizEndActivity extends AppCompatActivity {
         });
 
         AudioUtil.playMusic(this, AudioUtil.menuMusic);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AudioUtil.resumeMusic();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!mPressedButton)
+            AudioUtil.pauseMusic();
     }
 
     private int determineHighscore(int score, String region){
