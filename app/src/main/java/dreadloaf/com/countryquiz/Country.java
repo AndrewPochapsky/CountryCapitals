@@ -76,6 +76,10 @@ public class Country {
                     case "Mongolia":
                         capital = "Ulaanbaatar";
                         break;
+                    case "Democratic Republic of the Congo":
+                        //This one is just a name shortener
+                        name = "DRC";
+                        break;
                 }
                 countries[index] = new Country(name, capital, overarchingRegion);
                 //Log.d("Country", "Adding country with name = " + name + " and capital = " + capital);
